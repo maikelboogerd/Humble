@@ -26,5 +26,10 @@ namespace Humble
             spriteBatch.Draw(texture, rectangle, Color.Black);
         }
 
+        public void Update()
+        {
+
+        }
+
     }
 }

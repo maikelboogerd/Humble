@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    class Level
+    class World
     {
+        List<Tile> _tiles;
+
+
+        public void Update()
+        {
+
+        }
+
+        public void Draw()
+        {
+
+        }
     }
 }
