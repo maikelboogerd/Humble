@@ -116,10 +116,12 @@ namespace Humble
 
             spriteBatch.Begin();
 
-            foreach (Block block in blocks)
-            {
-                block.Draw(GraphicsDevice, spriteBatch);
-            }
+            world.Draw(GraphicsDevice, spriteBatch);
+
+            //foreach (Block block in blocks)
+            //{
+            //    block.Draw(GraphicsDevice, spriteBatch);
+            //}
 
             foreach (var sprite in _sprites)
                 sprite.Draw(spriteBatch);

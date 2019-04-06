@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Humble
 {
@@ -10,14 +12,12 @@ namespace Humble
     {
         public List<Tile> tiles;
 
-        public void Update()
+        public void Update() {}
+
+        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
-
-        }
-
-        public void Draw()
-        {
-
+            foreach (var tile in tiles)
+                tile.Draw(GraphicsDevice, spriteBatch);
         }
     }
 }
