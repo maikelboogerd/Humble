@@ -12,9 +12,6 @@ namespace Humble
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D whiteRectangle;
-
-        Block block;
         List<Block> blocks;
         
         public Game()
@@ -38,8 +35,8 @@ namespace Humble
             blocks = new List<Block>();
             blocks.Add(new Block(10, 20, 100, 100));
             blocks.Add(new Block(100, 100, 20, 20));
-            blocks.Add(new Block(50, 30, 100, 100));
-            blocks.Add(new Block(60, 600, 100, 100));
+            blocks.Add(new Block(50, 30, 200, 20));
+            blocks.Add(new Block(60, 600, 30, 100));
             blocks.Add(new Block(200, 200, 100, 100));
 
         }
