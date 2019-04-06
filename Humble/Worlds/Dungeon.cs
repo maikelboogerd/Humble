@@ -8,5 +8,9 @@ namespace Humble.Worlds
 {
     class Dungeon : World
     {
+        public Dungeon()
+        {
+            
+        }
     }
 }

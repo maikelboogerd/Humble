@@ -14,6 +14,7 @@ namespace Humble
         SpriteBatch spriteBatch;
 
         List<Block> blocks;
+        World world;
 
         private Texture2D _texture;
         private Vector2 _position;
@@ -35,6 +36,8 @@ namespace Humble
             // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            world = new Worlds.Dungeon();
 
             blocks = new List<Block>();
             blocks.Add(new Block(10, 20, 100, 100));

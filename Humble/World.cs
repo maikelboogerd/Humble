@@ -8,8 +8,7 @@ namespace Humble
 {
     class World
     {
-        List<Tile> _tiles;
-
+        public List<Tile> tiles;
 
         public void Update()
         {
