@@ -13,7 +13,6 @@ namespace Humble
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Level level;
         List<Block> blocks;
 
         private Texture2D _texture;

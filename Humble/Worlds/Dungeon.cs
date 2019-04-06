@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Humble.Worlds
 {
-    class Dungeon : IWorld
+    class Dungeon : World
     {
     }
 }
