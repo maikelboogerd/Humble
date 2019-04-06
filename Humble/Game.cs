@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,12 +8,16 @@ namespace Humble
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D whiteRectangle;
+
+        Block block;
+        List<Block> blocks;
         
-        public Game1()
+        public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -29,6 +34,14 @@ namespace Humble
             // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            blocks = new List<Block>();
+            blocks.Add(new Block(10, 20, 100, 100));
+            blocks.Add(new Block(100, 100, 20, 20));
+            blocks.Add(new Block(50, 30, 100, 100));
+            blocks.Add(new Block(60, 600, 100, 100));
+            blocks.Add(new Block(200, 200, 100, 100));
+
         }
 
         /// <summary>
@@ -75,7 +88,14 @@ namespace Humble
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            foreach (Block block in blocks)
+            {
+                block.Draw(GraphicsDevice, spriteBatch);
+            }
+     
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
