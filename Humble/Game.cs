@@ -16,9 +16,8 @@ namespace Humble
         List<Block> blocks;
         World world;
 
-        private Texture2D _texture;
-        private Vector2 _position;
-        
+        private List<Sprite> _sprites;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,8 +41,8 @@ namespace Humble
             blocks = new List<Block>();
             blocks.Add(new Block(10, 20, 100, 100));
             blocks.Add(new Block(100, 100, 20, 20));
-            blocks.Add(new Block(50, 30, 200, 20));
-            blocks.Add(new Block(60, 600, 30, 100));
+            blocks.Add(new Block(50, 30, 100, 100));
+            blocks.Add(new Block(60, 600, 100, 100));
             blocks.Add(new Block(200, 200, 100, 100));
 
         }
@@ -56,9 +55,30 @@ namespace Humble
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            _texture = Content.Load<Texture2D>("Box");
-            _position = new Vector2(0, 0);
-            // TODO: use this.Content to load your game content here
+            var texture = Content.Load<Texture2D>("Box");
+            _sprites = new List<Sprite>()
+            {
+                new Sprite(texture) {
+                    Position = new Vector2(100, 100),
+                    Input = new Input()
+                    {
+                        Down = Keys.D,
+                        Up = Keys.W,
+                        Left = Keys.A,
+                        Right = Keys.D
+                    }
+                },
+                new Sprite(texture) {
+                    Position = new Vector2(100, 100),
+                    Input = new Input()
+                    {
+                        Down = Keys.Down,
+                        Up = Keys.Up,
+                        Left = Keys.Left,
+                        Right = Keys.Right
+                    }
+                },
+            };
         }
 
         /// <summary>
@@ -80,30 +100,8 @@ namespace Humble
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-
-
-            if(Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                // up
-                _position.Y -= 1;
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                // down
-                _position.Y += 1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                // right
-                _position.X += 1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                // left
-                _position.X -= 1;
-            }
+            foreach (var sprite in _sprites)
+                sprite.Update();
 
             base.Update(gameTime);
         }
@@ -123,7 +121,8 @@ namespace Humble
                 block.Draw(GraphicsDevice, spriteBatch);
             }
 
-            spriteBatch.Draw(_texture, _position, Color.White);
+            foreach (var sprite in _sprites)
+                sprite.Draw(spriteBatch);
 
             spriteBatch.End();
 
