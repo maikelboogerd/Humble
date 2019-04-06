@@ -16,6 +16,9 @@ namespace Humble
 
         Block block;
         List<Block> blocks;
+
+        private Texture2D _texture;
+        private Vector2 _position;
         
         public Game()
         {
@@ -52,7 +55,8 @@ namespace Humble
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            _texture = Content.Load<Texture2D>("Box");
+            _position = new Vector2(0, 0);
             // TODO: use this.Content to load your game content here
         }
 
@@ -75,7 +79,30 @@ namespace Humble
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+
+
+
+            if(Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                // up
+                _position.Y -= 1;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                // down
+                _position.Y += 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                // right
+                _position.X += 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                // left
+                _position.X -= 1;
+            }
 
             base.Update(gameTime);
         }
@@ -94,8 +121,11 @@ namespace Humble
             {
                 block.Draw(GraphicsDevice, spriteBatch);
             }
-     
+
+            spriteBatch.Draw(_texture, _position, Color.White);
+
             spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
