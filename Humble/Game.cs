@@ -16,6 +16,8 @@ namespace Humble
         public PlayerController playerController;
         public WorldController worldController;
 
+        public IsometricBlock isometricBlock;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -30,10 +32,12 @@ namespace Humble
         /// </summary>
         protected override void Initialize()
         {
-            Components.Add(playerController = new PlayerController(this));
-            Components.Add(worldController = new WorldController(this));
+            //Components.Add(playerController = new PlayerController(this));
+            //Components.Add(worldController = new WorldController(this));
 
-            worldController.CreateWorld();
+            isometricBlock = new IsometricBlock(GraphicsDevice);
+
+            //worldController.CreateWorld();
 
             Input playerOneInput = new Input()
             {
@@ -51,8 +55,8 @@ namespace Humble
                 Right = Keys.Right
             };
 
-            playerController.CreatePlayer(playerOneInput);
-            playerController.CreatePlayer(playerTwoInput);
+            //playerController.CreatePlayer(playerOneInput);
+            //playerController.CreatePlayer(playerTwoInput);
 
             base.Initialize();
 
@@ -101,6 +105,7 @@ namespace Humble
             spriteBatch.Begin();
 
             // TODO: Draw on sprite.
+            isometricBlock.Draw(spriteBatch);
 
             spriteBatch.End();
 

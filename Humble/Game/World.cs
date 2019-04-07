@@ -28,7 +28,7 @@ namespace Humble
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gridSize = new Vector2(20, 10);
+            gridSize = new Vector2(10, 10);
             int blockSize = 30;
 
             blocks = new List<Block>();
