@@ -59,7 +59,7 @@ namespace Humble
             playerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             playerTexture.SetData(new[] { Color.Black });
 
-            changePosition(game.worldController.GetWorld().spawnPoint);
+            changePosition(game.worldController.GetWorld().spawnPoint());
 
             base.Initialize();
         }

@@ -52,7 +52,7 @@ namespace Humble
             };
 
             playerController.CreatePlayer(playerOneInput);
-            //playerController.CreatePlayer(playerTwoInput);
+            playerController.CreatePlayer(playerTwoInput);
 
             base.Initialize();
 

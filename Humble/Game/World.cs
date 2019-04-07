@@ -14,8 +14,7 @@ namespace Humble
         private SpriteBatch spriteBatch;
         private Vector2 gridSize;
         private List<Block> blocks;
-
-        public Vector2 spawnPoint;
+        private Random random = new Random();
 
         public World(Game game) : base(game)
         {
@@ -44,10 +43,13 @@ namespace Humble
                 }
             }
 
-            Block spawnBlock = blocks[new Random().Next(blocks.Count())];
-            spawnPoint = spawnBlock.Center();
-
             base.Initialize();
+        }
+
+        public Vector2 spawnPoint()
+        {
+            Block spawnBlock = blocks[random.Next(blocks.Count())];
+            return spawnBlock.Center();
         }
 
         /// Collision
