@@ -16,6 +16,8 @@ namespace Humble
         private List<Block> blocks;
         private Random random = new Random();
 
+        private List<IsometricBlock> isometricBlocks;
+
         public World(Game game) : base(game)
         {
             this.game = game;
@@ -28,18 +30,31 @@ namespace Humble
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gridSize = new Vector2(10, 10);
+            gridSize = new Vector2(2, 3);
             int blockSize = 30;
 
             blocks = new List<Block>();
+            isometricBlocks = new List<IsometricBlock>();
 
-            for (int i = 0; i < gridSize.X; ++i)
+            for (int j = 0; j < gridSize.Y; ++j)
             {
-                for (int j = 0; j < gridSize.Y; ++j)
+                for (int i = 0; i < gridSize.X; ++i)
                 {
-                    Rectangle rectangle = new Rectangle(i * blockSize, j * blockSize, blockSize, blockSize);
-                    Block block = new Block(game, rectangle);
-                    blocks.Add(block);
+                    //Rectangle rectangle = new Rectangle(i * blockSize, j * blockSize, blockSize, blockSize);
+                    //Block block = new Block(game, rectangle);
+                    //blocks.Add(block
+                    Vector2 blockPosition;
+                    if (j % 2 == 0)
+                        blockPosition = new Vector2(i * IsometricBlock.Width - (IsometricBlock.Width / 2),
+                                                    (j * IsometricBlock.Height / 2) / 2);
+                        //Console.WriteLine("Number is even");
+                    else
+                        blockPosition = new Vector2(i * IsometricBlock.Width,
+                                                    (j * IsometricBlock.Height / 2) / 2);
+                        //Console.WriteLine("Number is odd");
+                    IsometricBlock isometricBlock = new IsometricBlock(game, blockPosition);
+                    isometricBlocks.Add(isometricBlock);
+
                 }
             }
 
@@ -48,7 +63,7 @@ namespace Humble
 
         public Vector2 spawnPoint()
         {
-            Block spawnBlock = blocks[random.Next(blocks.Count())];
+            IsometricBlock spawnBlock = isometricBlocks[random.Next(isometricBlocks.Count())];
             return spawnBlock.Center();
         }
 
@@ -57,9 +72,9 @@ namespace Humble
 
         public Boolean Intersects(Rectangle rectangle)
         {
-            foreach (Block block in blocks)
+            foreach (IsometricBlock isometricBlock in isometricBlocks)
             {
-                if (block.rectangle.Intersects(rectangle))
+                if (isometricBlock.positionRectangle.Intersects(rectangle))
                     return true;
             }
 
@@ -78,8 +93,8 @@ namespace Humble
         {
             spriteBatch.Begin();
 
-            foreach (Block block in blocks)
-                block.Draw(spriteBatch);
+            foreach (IsometricBlock isometricBlock in isometricBlocks)
+                isometricBlock.Draw(spriteBatch);
 
             spriteBatch.End();
         }

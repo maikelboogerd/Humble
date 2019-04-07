@@ -36,26 +36,25 @@ namespace Humble
         /// </summary>
         protected override void Initialize()
         {
-            //Components.Add(playerController = new PlayerController(this));
-            //Components.Add(worldController = new WorldController(this));
+            Components.Add(playerController = new PlayerController(this));
+            Components.Add(worldController = new WorldController(this));
 
-            int blockWidth = 180;
+            //int blockWidth = 180;
             // Top row
-            Vector2 position1 = new Vector2(100, 100);
-            isometricBlock1 = new IsometricBlock(this, position1);
-            Vector2 position2 = new Vector2(100 + blockWidth, 100);
-            isometricBlock2 = new IsometricBlock(this, position2);
+            //Vector2 position1 = new Vector2(100, 100);
+            //isometricBlock1 = new IsometricBlock(this, position1);
+            //Vector2 position2 = new Vector2(100 + blockWidth, 100);
+            //isometricBlock2 = new IsometricBlock(this, position2);
             // Middle row
-            Vector2 position3 = new Vector2(100 + (blockWidth / 2), 100 + (blockWidth / 2) / 2);
-            isometricBlock3 = new IsometricBlock(this, position3);
+            //Vector2 position3 = new Vector2(100 + (blockWidth / 2), 100 + (blockWidth / 2) / 2);
+            //isometricBlock3 = new IsometricBlock(this, position3);
             // Bottom row
-            Vector2 position5 = new Vector2(100 + blockWidth, 100 + (blockWidth / 2));
-            isometricBlock5 = new IsometricBlock(this, position5);
-            Vector2 position4 = new Vector2(100, 100 + (blockWidth / 2));
-            isometricBlock4 = new IsometricBlock(this, position4);
- 
+            //Vector2 position5 = new Vector2(100 + blockWidth, 100 + (blockWidth / 2));
+            //isometricBlock5 = new IsometricBlock(this, position5);
+            //Vector2 position4 = new Vector2(100, 100 + (blockWidth / 2));
+            //isometricBlock4 = new IsometricBlock(this, position4);
 
-            //worldController.CreateWorld();
+            worldController.CreateWorld();
 
             Input playerOneInput = new Input()
             {
@@ -73,8 +72,8 @@ namespace Humble
                 Right = Keys.Right
             };
 
-            //playerController.CreatePlayer(playerOneInput);
-            //playerController.CreatePlayer(playerTwoInput);
+            playerController.CreatePlayer(playerOneInput);
+            playerController.CreatePlayer(playerTwoInput);
 
             base.Initialize();
 
@@ -123,11 +122,11 @@ namespace Humble
             spriteBatch.Begin();
 
             // TODO: Draw on sprite.
-            isometricBlock1.Draw(spriteBatch);
-            isometricBlock2.Draw(spriteBatch);
-            isometricBlock3.Draw(spriteBatch);
-            isometricBlock4.Draw(spriteBatch);
-            isometricBlock5.Draw(spriteBatch);
+            //isometricBlock1.Draw(spriteBatch);
+            //isometricBlock2.Draw(spriteBatch);
+            //isometricBlock3.Draw(spriteBatch);
+            //isometricBlock4.Draw(spriteBatch);
+            //isometricBlock5.Draw(spriteBatch);
 
             spriteBatch.End();
 
