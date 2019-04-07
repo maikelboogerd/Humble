@@ -34,7 +34,7 @@ namespace Humble
                                              Width + textureOffsetRight + textureOffsetLeft,
                                              Height + textureOffsetTop + textureOffsetBottom);
             // Create the textures for Draw().
-            texture = game.Content.Load<Texture2D>("Blocks/isometric_0011");
+            texture = game.Content.Load<Texture2D>("Blocks/isometric_0003");
         }
 
         public Vector2 Center()
