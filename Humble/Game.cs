@@ -48,7 +48,7 @@ namespace Humble
                 Up = Keys.Up,
                 Down = Keys.Down,
                 Left = Keys.Left,
-                Right = Keys.Right,
+                Right = Keys.Right
             };
 
             playerController.CreatePlayer(playerOneInput);
