@@ -17,6 +17,7 @@ namespace Humble
 
         public static Polygon AxisToPolygon(List<Vector2> axis)
         {
+            // Construct a Polygon from a list of axis.
             Polygon polygon = new Polygon();
             for (int i = 0; i < axis.Count; ++i)
             {
@@ -25,6 +26,7 @@ namespace Humble
                     pointB = axis[i + 1];
                 else
                     pointB = axis[0];
+                // Convert the points to a PolygonLine and add it.
                 PolygonLine polygonLine = new PolygonLine(axis[i], pointB);
                 polygon.Lines.Add(polygonLine);
             }
@@ -33,6 +35,7 @@ namespace Humble
 
         public bool Contains(Vector2 point)
         {
+            // Check if the point lies within this Polygon.
             bool inside = false;
             foreach (var side in Lines)
             {

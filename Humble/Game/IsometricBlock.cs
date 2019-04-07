@@ -15,13 +15,9 @@ namespace Humble
 
         public Vector2 position;
         public Rectangle positionRectangle;
-        public Rectangle surfaceRectangle;
-        public Rectangle textureRectangle;
 
-        public Texture2D positionTexture;
-        public Texture2D surfaceTexture;
-        public Texture2D blockTexture;
-        public Texture2D centerTexture;
+        public Rectangle textureRectangle;
+        public Texture2D texture;
 
         private int textureOffsetTop = 3;
         private int textureOffsetBottom = 5;
@@ -31,36 +27,25 @@ namespace Humble
         public IsometricBlock(Game game, Vector2 position)
         {
             this.position = position;
-            blockTexture = game.Content.Load<Texture2D>("Blocks/isometric_0011");
-
+            // Create the rectangles that make up this block.
             positionRectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height / 2);
-            surfaceRectangle = new Rectangle((int)position.X + Width / 2, (int)position.Y, Width, Height);
             textureRectangle = new Rectangle((int)position.X - textureOffsetLeft,
                                              (int)position.Y - textureOffsetTop,
                                              Width + textureOffsetRight + textureOffsetLeft,
                                              Height + textureOffsetTop + textureOffsetBottom);
-
-            positionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            positionTexture.SetData(new[] { Color.Red });
-
-            surfaceTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            surfaceTexture.SetData(new[] { Color.Blue });
-
-            //blockTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            //blockTexture.SetData(new[] { Color.Green });
-
-            centerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            centerTexture.SetData(new[] { Color.Yellow });
-
+            // Create the textures for Draw().
+            texture = game.Content.Load<Texture2D>("Blocks/isometric_0011");
         }
 
         public Vector2 Center()
         {
+            // Calculate the center of the physical position for this block.
             return new Vector2(positionRectangle.X + (positionRectangle.Width / 2), positionRectangle.Y + (positionRectangle.Height / 2));
         }
 
         public List<Vector2> getSurfaceAxis()
         {
+            // Return a list of Axis' that are the presentation of the isometric surface area.
             List<Vector2> surfaceAxis = new List<Vector2>();
             surfaceAxis.Add(new Vector2(position.X + (positionRectangle.Width / 2), position.Y));
             surfaceAxis.Add(new Vector2(position.X + positionRectangle.Width, position.Y + positionRectangle.Height / 2));
@@ -69,40 +54,23 @@ namespace Humble
             return surfaceAxis;
         }
 
-        public List<Vector2> getRectangleAxis(Rectangle rectangle)
+        public Polygon getPolygon()
         {
-            List<Vector2> rectangleAxis = new List<Vector2>();
-            rectangleAxis.Add(new Vector2(position.X, position.Y));
-            rectangleAxis.Add(new Vector2(position.X + positionRectangle.Width, position.Y));
-            rectangleAxis.Add(new Vector2(position.X + positionRectangle.Width, position.Y + positionRectangle.Height));
-            rectangleAxis.Add(new Vector2(position.X, position.Y + positionRectangle.Height));
-            return rectangleAxis;
+            // Construct a Polygon representation for this block's surface.
+            List<Vector2> surfaceAxis = getSurfaceAxis();
+            return Polygon.AxisToPolygon(surfaceAxis);
         }
 
         public bool Intersects(Vector2 point)
         {
-
-            List<Vector2> surfaceAxis = getSurfaceAxis();
-            Polygon surfacePolygon = Polygon.AxisToPolygon(surfaceAxis);
-
-            return surfacePolygon.Contains(point);
-            //return rectangle.Intersects(positionRectangle);
+            // Check if a point lies within the surface area of this block.
+            Polygon polygon = getPolygon();
+            return polygon.Contains(point);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(blockTexture, textureRectangle, Color.White);
-            //spriteBatch.Draw(positionTexture, positionRectangle, Color.White * 0.5f);
-            //spriteBatch.Draw(surfaceTexture, surfaceRectangle, Color.White * 0.5f);
-            //spriteBatch.Draw(surfaceTexture, surfaceRectangle, null, Color.White * 0.5f, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
-            //spriteBatch.Draw(centerTexture, Center(), Color.White);
-
-            foreach(Vector2 axis in getSurfaceAxis())
-                spriteBatch.Draw(centerTexture, axis, Color.White);
-
-            //foreach (Vector2 axis in getRectangleAxis(positionRectangle))
-            //    spriteBatch.Draw(centerTexture, axis, Color.White);
-
+            spriteBatch.Draw(texture, textureRectangle, Color.White);
         }
 
     }
