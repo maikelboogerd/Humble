@@ -40,7 +40,6 @@ namespace Humble
         public override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             position = new Vector2(100, 100);
 
             positionBounds = new Rectangle((int)position.X - boundsSize / 2,
@@ -70,7 +69,6 @@ namespace Humble
 
         public override void Update(GameTime gameTime)
         {
-            //Console.WriteLine("@Player.Update");
             handleInput();
         }
 
