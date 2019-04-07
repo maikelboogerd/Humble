@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Humble
 {
-    public class IsometricBlock
+    public abstract class IsometricBlock
     {
-        public static int Width = 180;
-        public static int Height = 180;
+        public static int Width = 200;
+        public static int Height = 200;
 
         public Vector2 position;
         public Rectangle positionRectangle;
@@ -34,9 +34,6 @@ namespace Humble
                                              (int)position.Y - textureOffsetTop,
                                              Width + textureOffsetRight + textureOffsetLeft,
                                              Height + textureOffsetTop + textureOffsetBottom);
-            // Create the textures for Draw().
-            ContentManager Content = GameService.GetService<ContentManager>();
-            texture = Content.Load<Texture2D>("Blocks/isometric_0003");
         }
 
         public Vector2 Center()

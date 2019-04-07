@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace Humble.Blocks
 {
-    public class LavaBlock : IsometricBlock
+    public class Ice : IsometricBlock
     {
-        public LavaBlock(Vector2 position) : base(position)
+        public Ice(Vector2 position) : base(position)
         {
-            // Create the textures for Draw().
             ContentManager Content = GameService.GetService<ContentManager>();
-            texture = Content.Load<Texture2D>("Blocks/isometric_0003");
+            texture = Content.Load<Texture2D>("Blocks/isometric_0035");
         }
     }
 }
