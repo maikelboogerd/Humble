@@ -43,7 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
-    <Compile Include="Game\Block.cs" />
     <Compile Include="Game\Input.cs" />
     <Compile Include="Game\IsometricBlock.cs" />
     <Compile Include="Game\Player.cs" />

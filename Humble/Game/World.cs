@@ -12,10 +12,9 @@ namespace Humble
     {
         private Game game;
         private SpriteBatch spriteBatch;
-        private Vector2 gridSize;
-        private List<Block> blocks;
         private Random random = new Random();
 
+        private Vector2 gridSize;
         private List<IsometricBlock> isometricBlocks;
 
         public World(Game game) : base(game)
@@ -31,10 +30,9 @@ namespace Humble
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             gridSize = new Vector2(2, 3);
-
-            blocks = new List<Block>();
             isometricBlocks = new List<IsometricBlock>();
 
+            // Loop over the grid and create each block in order.
             for (int j = 0; j < gridSize.Y; ++j)
             {
                 for (int i = 0; i < gridSize.X; ++i)
@@ -57,6 +55,7 @@ namespace Humble
 
         public Vector2 spawnPoint()
         {
+            // Get a random block's center point as spawn location.
             IsometricBlock spawnBlock = isometricBlocks[random.Next(isometricBlocks.Count())];
             return spawnBlock.Center();
         }
@@ -88,6 +87,7 @@ namespace Humble
         {
             spriteBatch.Begin();
 
+            // Draw each isometric block by calling it's Draw().
             foreach (IsometricBlock isometricBlock in isometricBlocks)
                 isometricBlock.Draw(spriteBatch);
 
