@@ -20,13 +20,12 @@ namespace Humble
             Polygon polygon = new Polygon();
             for (int i = 0; i < axis.Count; ++i)
             {
-                Vector2 surfacePointA = axis[i];
-                Vector2 surfacePointB;
+                Vector2 pointB;
                 if (i != axis.Count - 1)
-                    surfacePointB = axis[i + 1];
+                    pointB = axis[i + 1];
                 else
-                    surfacePointB = axis[0];
-                PolygonLine polygonLine = new PolygonLine(surfacePointA, surfacePointB);
+                    pointB = axis[0];
+                PolygonLine polygonLine = new PolygonLine(axis[i], pointB);
                 polygon.Lines.Add(polygonLine);
             }
             return polygon;
