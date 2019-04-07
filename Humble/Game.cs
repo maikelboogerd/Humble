@@ -13,10 +13,8 @@ namespace Humble
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        List<Block> blocks;
-        World world;
-
-        private List<Sprite> _sprites;
+        public PlayerController playerController;
+        public WorldController worldController;
 
         public Game()
         {
@@ -32,18 +30,31 @@ namespace Humble
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Components.Add(playerController = new PlayerController(this));
+            Components.Add(worldController = new WorldController(this));
+
+            worldController.CreateWorld();
+
+            Input playerOneInput = new Input()
+            {
+                Up = Keys.W,
+                Down = Keys.S,
+                Left = Keys.A,
+                Right = Keys.D
+            };
+
+            Input playerTwoInput = new Input()
+            {
+                Up = Keys.Up,
+                Down = Keys.Down,
+                Left = Keys.Left,
+                Right = Keys.Right,
+            };
+
+            playerController.CreatePlayer(playerOneInput);
+            //playerController.CreatePlayer(playerTwoInput);
 
             base.Initialize();
-
-            world = new Worlds.Dungeon();
-
-            blocks = new List<Block>();
-            blocks.Add(new Block(10, 20, 100, 100));
-            blocks.Add(new Block(100, 100, 20, 20));
-            blocks.Add(new Block(50, 30, 100, 100));
-            blocks.Add(new Block(60, 600, 100, 100));
-            blocks.Add(new Block(200, 200, 100, 100));
 
         }
 
@@ -55,30 +66,6 @@ namespace Humble
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            var texture = Content.Load<Texture2D>("Box");
-            _sprites = new List<Sprite>()
-            {
-                new Sprite(texture) {
-                    Position = new Vector2(100, 100),
-                    Input = new Input()
-                    {
-                        Down = Keys.D,
-                        Up = Keys.W,
-                        Left = Keys.A,
-                        Right = Keys.D
-                    }
-                },
-                new Sprite(texture) {
-                    Position = new Vector2(100, 100),
-                    Input = new Input()
-                    {
-                        Down = Keys.Down,
-                        Up = Keys.Up,
-                        Left = Keys.Left,
-                        Right = Keys.Right
-                    }
-                },
-            };
         }
 
         /// <summary>
@@ -100,9 +87,6 @@ namespace Humble
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (var sprite in _sprites)
-                sprite.Update();
-
             base.Update(gameTime);
         }
 
@@ -116,18 +100,9 @@ namespace Humble
 
             spriteBatch.Begin();
 
-            world.Draw(GraphicsDevice, spriteBatch);
-
-            //foreach (Block block in blocks)
-            //{
-            //    block.Draw(GraphicsDevice, spriteBatch);
-            //}
-
-            foreach (var sprite in _sprites)
-                sprite.Draw(spriteBatch);
+            // TODO: Draw on sprite.
 
             spriteBatch.End();
-
 
             base.Draw(gameTime);
         }
