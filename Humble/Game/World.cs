@@ -10,25 +10,27 @@ namespace Humble
 {
     public class World : DrawableGameComponent
     {
-        Game game;
-        SpriteBatch spriteBatch;
+        private Game game;
+        private SpriteBatch spriteBatch;
+        private Vector2 gridSize;
+        private List<Block> blocks;
 
-        Vector2 gridSize;
-        List<Block> blocks;
+        public Vector2 spawnPoint;
 
         public World(Game game) : base(game)
         {
             this.game = game;
         }
 
+        /// Initialize
+        /// 
+
         public override void Initialize()
         {
-            Console.WriteLine("@World.Initialize");
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gridSize = new Vector2(10, 10);
-            int blockSize = 40;
+            gridSize = new Vector2(20, 10);
+            int blockSize = 30;
 
             blocks = new List<Block>();
 
@@ -42,8 +44,14 @@ namespace Humble
                 }
             }
 
+            Block spawnBlock = blocks[new Random().Next(blocks.Count())];
+            spawnPoint = spawnBlock.Center();
+
             base.Initialize();
         }
+
+        /// Collision
+        /// 
 
         public Boolean Intersects(Rectangle rectangle)
         {
@@ -56,15 +64,13 @@ namespace Humble
             return false;
         }
 
-        public Vector2 spawnPoint()
-        {
-            return new Vector2(10, 10);
-        }
+        /// Update
+        /// 
 
-        public override void Update(GameTime gameTime)
-        {
-            //Console.WriteLine("@World.Update");
-        }
+        public override void Update(GameTime gameTime) {}
+
+        /// Draw
+        /// 
 
         public override void Draw(GameTime gameTime)
         {

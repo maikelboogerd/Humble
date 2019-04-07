@@ -9,7 +9,7 @@ namespace Humble
 {
     public class PlayerController : GameComponent
     {
-        Game game;
+        private Game game;
         public List<Player> players;
 
         public PlayerController(Game game) : base(game)

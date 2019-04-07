@@ -11,16 +11,22 @@ namespace Humble
 {
     public class Player : DrawableGameComponent
     {
-        Game game;
-        Input input;
-        SpriteBatch spriteBatch;
+        private Game game;
+        private Input input;
+        private SpriteBatch spriteBatch;
 
-        public float movementSpeed = 5;
-        public float speedModifier = 1;
+        private int boundsSize = 20;
+        private int playerSize = 40;
+        private float movementSpeed = 5;
+        private float speedModifier = 1;
 
-        Texture2D texture;
-        Vector2 position;
-        Rectangle rectangle;
+        public Vector2 position;
+        public Rectangle positionBounds;
+        public Rectangle playerBounds;
+
+        private Texture2D positionTexture;
+        private Texture2D playerTexture;
+
 
         public Player(Game game, Input input) : base(game)
         {
@@ -28,68 +34,95 @@ namespace Humble
             this.input = input;
         }
 
+        /// Initialize
+        /// 
+
         public override void Initialize()
         {
-            Console.WriteLine("@Player.Initialize");
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            texture = Game.Content.Load<Texture2D>("Box");
             position = new Vector2(100, 100);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+
+            positionBounds = new Rectangle((int)position.X - boundsSize / 2,
+                                           (int)position.Y - boundsSize / 2,
+                                           boundsSize,
+                                           boundsSize);
+
+            playerBounds = new Rectangle((int)position.X - playerSize / 2,
+                                         (int)position.Y - playerSize * 2,
+                                         playerSize,
+                                         playerSize * 2);
+
+            positionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            positionTexture.SetData(new[] { Color.Red });
+
+            //playerTexture = Game.Content.Load<Texture2D>("Box");
+            playerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            playerTexture.SetData(new[] { Color.Black });
+
+            changePosition(game.worldController.GetWorld().spawnPoint);
 
             base.Initialize();
         }
 
+        /// Update
+        /// 
+
         public override void Update(GameTime gameTime)
         {
             //Console.WriteLine("@Player.Update");
-            Move();
+            handleInput();
         }
+
+        /// Draw
+        /// 
 
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(playerTexture, playerBounds, Color.White);
+            spriteBatch.Draw(positionTexture, positionBounds, Color.White);
             spriteBatch.End();
         }
 
-        public Boolean canMoveTo(Vector2 position)
+        /// Movement
+        /// 
+
+        public void changePosition(Vector2 position)
         {
-            Rectangle targetRectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-
-            if (game.worldController.GetWorld().Intersects(targetRectangle))
-                return true;
-
-            return false;
+            // Update current position.
+            this.position.X = position.X;
+            this.position.Y = position.Y;
+            // Update movement bounds.
+            positionBounds.X = (int)position.X - boundsSize / 2;
+            positionBounds.Y = (int)position.Y - boundsSize / 2;
+            // Update player bounds.
+            playerBounds.X = (int)position.X - playerSize / 2;
+            playerBounds.Y = (int)position.Y - playerSize * 2;
         }
-
-        public void Move()
+        
+        public void handleInput()
         {
-            Console.WriteLine("@Player.Move");
-
             Vector2 targetPosition = position;
 
+            float positionModifier = (movementSpeed * speedModifier);
+
             if (Keyboard.GetState().IsKeyDown(input.Up))
-                targetPosition.Y -= (movementSpeed * speedModifier);
+                targetPosition.Y -= positionModifier;
 
             if (Keyboard.GetState().IsKeyDown(input.Down))
-                targetPosition.Y += (movementSpeed * speedModifier);
+                targetPosition.Y += positionModifier;
 
             if (Keyboard.GetState().IsKeyDown(input.Right))
-                targetPosition.X += (movementSpeed * speedModifier);
+                targetPosition.X += positionModifier;
 
             if (Keyboard.GetState().IsKeyDown(input.Left))
-                targetPosition.X -= (movementSpeed * speedModifier);
+                targetPosition.X -= positionModifier;
 
-            Rectangle targetRectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            Rectangle targetBounds = new Rectangle((int)targetPosition.X, (int)targetPosition.Y, 1, 1);
 
-            if (game.worldController.GetWorld().Intersects(targetRectangle))
-
-                if (canMoveTo(targetPosition))
-                    position = targetPosition;
-                    rectangle.X = (int)position.X;
-                    rectangle.Y = (int)position.Y;
+            if (game.worldController.GetWorld().Intersects(targetBounds))
+                changePosition(targetPosition);
         }
     }
 }

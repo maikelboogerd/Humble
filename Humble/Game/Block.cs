@@ -22,6 +22,11 @@ namespace Humble
             //texture = game.Content.Load<Texture2D>("Box");
         }
 
+        public Vector2 Center()
+        {
+            return new Vector2(rectangle.X - rectangle.Width / 2, rectangle.Y - rectangle.Height / 2);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
