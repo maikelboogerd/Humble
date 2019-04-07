@@ -29,7 +29,7 @@ namespace Humble
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gridSize = new Vector2(2, 3);
+            gridSize = new Vector2(4, 6);
             isometricBlocks = new List<IsometricBlock>();
 
             // Loop over the grid and create each block in order.
