@@ -79,52 +79,14 @@ namespace Humble
             return rectangleAxis;
         }
 
-        public static bool LineIntersect(Vector2 a, Vector2 b, Vector2 c, Vector2 d, out Vector2 point)
+        public bool Intersects(Vector2 point)
         {
-            point = Vector2.Zero;
 
-            double r, s;
-            double denominator = (b.X - a.X) * (d.Y - c.Y) - (b.Y - a.Y) * (d.X - c.X);
-
-            // If the denominator in above is zero, AB & CD are colinear
-            if (denominator == 0)
-            {
-                return false;
-            }
-
-            double numeratorR = (a.Y - c.Y) * (d.X - c.X) - (a.X - c.X) * (d.Y - c.Y);
-            r = numeratorR / denominator;
-
-            double numeratorS = (a.Y - c.Y) * (b.X - a.X) - (a.X - c.X) * (b.Y - a.Y);
-            s = numeratorS / denominator;
-
-            // non-intersecting
-            if (r < 0 || r > 1 || s < 0 || s > 1)
-            {
-                return false;
-            }
-
-            // find intersection point
-            point.X = (float)(a.X + (r * (b.X - a.X)));
-            point.Y = (float)(a.Y + (r * (b.Y - a.Y)));
-
-            return true;
-        }
-
-        public bool Intersects(Rectangle rectangle)
-        {
             List<Vector2> surfaceAxis = getSurfaceAxis();
-            List<Vector2> rectangleAxis = getRectangleAxis(rectangle);
+            Polygon surfacePolygon = Polygon.AxisToPolygon(surfaceAxis);
 
-            foreach (Vector2 aAxis in surfaceAxis)
-            {
-                foreach (Vector2 bAxis in rectangleAxis)
-                {
-
-                }
-            }
-
-            return true;
+            return surfacePolygon.Contains(point);
+            //return rectangle.Intersects(positionRectangle);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -135,11 +97,11 @@ namespace Humble
             //spriteBatch.Draw(surfaceTexture, surfaceRectangle, null, Color.White * 0.5f, MathHelper.PiOver4, Vector2.Zero, SpriteEffects.None, 0);
             //spriteBatch.Draw(centerTexture, Center(), Color.White);
 
-            //foreach(Vector2 axis in getSurfaceAxis())
-            //    spriteBatch.Draw(centerTexture, axis, Color.White);
-
-            foreach (Vector2 axis in getRectangleAxis(positionRectangle))
+            foreach(Vector2 axis in getSurfaceAxis())
                 spriteBatch.Draw(centerTexture, axis, Color.White);
+
+            //foreach (Vector2 axis in getRectangleAxis(positionRectangle))
+            //    spriteBatch.Draw(centerTexture, axis, Color.White);
 
         }
 

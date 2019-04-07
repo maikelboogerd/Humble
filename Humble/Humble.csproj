@@ -48,6 +48,7 @@
     <Compile Include="Game\IsometricBlock.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\PlayerController.cs" />
+    <Compile Include="Game\Toolbox\Polygon.cs" />
     <Compile Include="Game\World.cs" />
     <Compile Include="Game\WorldController.cs" />
     <Compile Include="Program.cs" />

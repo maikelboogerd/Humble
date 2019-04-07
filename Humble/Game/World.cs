@@ -31,7 +31,6 @@ namespace Humble
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             gridSize = new Vector2(2, 3);
-            int blockSize = 30;
 
             blocks = new List<Block>();
             isometricBlocks = new List<IsometricBlock>();
@@ -40,18 +39,13 @@ namespace Humble
             {
                 for (int i = 0; i < gridSize.X; ++i)
                 {
-                    //Rectangle rectangle = new Rectangle(i * blockSize, j * blockSize, blockSize, blockSize);
-                    //Block block = new Block(game, rectangle);
-                    //blocks.Add(block
                     Vector2 blockPosition;
+
                     if (j % 2 == 0)
-                        blockPosition = new Vector2(i * IsometricBlock.Width - (IsometricBlock.Width / 2),
-                                                    (j * IsometricBlock.Height / 2) / 2);
-                        //Console.WriteLine("Number is even");
+                        blockPosition = new Vector2(i * IsometricBlock.Width - (IsometricBlock.Width / 2), (j * IsometricBlock.Height / 2) / 2);
                     else
-                        blockPosition = new Vector2(i * IsometricBlock.Width,
-                                                    (j * IsometricBlock.Height / 2) / 2);
-                        //Console.WriteLine("Number is odd");
+                        blockPosition = new Vector2(i * IsometricBlock.Width, (j * IsometricBlock.Height / 2) / 2);
+
                     IsometricBlock isometricBlock = new IsometricBlock(game, blockPosition);
                     isometricBlocks.Add(isometricBlock);
 
@@ -74,7 +68,8 @@ namespace Humble
         {
             foreach (IsometricBlock isometricBlock in isometricBlocks)
             {
-                if (isometricBlock.positionRectangle.Intersects(rectangle))
+                Vector2 point = new Vector2(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2);
+                if (isometricBlock.Intersects(point))
                     return true;
             }
 
