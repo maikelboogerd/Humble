@@ -44,11 +44,13 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="Game\Blocks\LavaBlock.cs" />
+    <Compile Include="GameService.cs" />
     <Compile Include="Game\Input.cs" />
     <Compile Include="Game\IsometricBlock.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\PlayerController.cs" />
     <Compile Include="Game\Shapes\Polygon.cs" />
+    <Compile Include="Game\Toolbox.cs" />
     <Compile Include="Game\World.cs" />
     <Compile Include="Game\WorldController.cs" />
     <Compile Include="Program.cs" />

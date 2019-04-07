@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Humble
@@ -24,7 +25,7 @@ namespace Humble
         private int textureOffsetLeft = 15;
         private int textureOffsetRight = 18;
 
-        public IsometricBlock(Game game, Vector2 position)
+        public IsometricBlock(Vector2 position)
         {
             this.position = position;
             // Create the rectangles that make up this block.
@@ -34,7 +35,8 @@ namespace Humble
                                              Width + textureOffsetRight + textureOffsetLeft,
                                              Height + textureOffsetTop + textureOffsetBottom);
             // Create the textures for Draw().
-            texture = game.Content.Load<Texture2D>("Blocks/isometric_0003");
+            ContentManager Content = GameService.GetService<ContentManager>();
+            texture = Content.Load<Texture2D>("Blocks/isometric_0003");
         }
 
         public Vector2 Center()

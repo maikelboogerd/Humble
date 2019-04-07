@@ -44,7 +44,7 @@ namespace Humble
                     else
                         blockPosition = new Vector2(i * IsometricBlock.Width, (j * IsometricBlock.Height / 2) / 2);
 
-                    IsometricBlock isometricBlock = new IsometricBlock(game, blockPosition);
+                    IsometricBlock isometricBlock = new IsometricBlock(blockPosition);
                     isometricBlocks.Add(isometricBlock);
 
                 }
