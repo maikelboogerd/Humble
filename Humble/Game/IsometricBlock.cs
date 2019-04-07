@@ -10,6 +10,10 @@ namespace Humble
 {
     public class IsometricBlock
     {
+        public int Width = 180;
+        public int Height = 180;
+
+        public Vector2 position = new Vector2(100, 100);
         public Rectangle positionRectangle;
         public Rectangle surfaceRectangle;
         public Rectangle textureRectangle;
@@ -19,22 +23,33 @@ namespace Humble
         public Texture2D blockTexture;
         public Texture2D centerTexture;
 
-        public IsometricBlock(GraphicsDevice GraphicsDevice)
-        {
-            positionRectangle = new Rectangle(50, 50, 100, 100);
-            surfaceRectangle = new Rectangle(100, 50, 100, 100);
-            textureRectangle = new Rectangle(50, 50, 100, 200);
+        private int textureOffsetTop = 3;
+        private int textureOffsetBottom = 5;
+        private int textureOffsetLeft = 15;
+        private int textureOffsetRight = 18;
 
-            positionTexture = new Texture2D(GraphicsDevice, 1, 1);
+        public IsometricBlock(Game game, Vector2 position)
+        {
+            this.position = position;
+            blockTexture = game.Content.Load<Texture2D>("Blocks/isometric_0000");
+
+            positionRectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height / 2);
+            surfaceRectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
+            textureRectangle = new Rectangle((int)position.X - textureOffsetLeft,
+                                             (int)position.Y - textureOffsetTop,
+                                             Width + textureOffsetRight + textureOffsetLeft,
+                                             Height + textureOffsetTop + textureOffsetBottom);
+
+            positionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             positionTexture.SetData(new[] { Color.Red });
 
-            surfaceTexture = new Texture2D(GraphicsDevice, 1, 1);
+            surfaceTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             surfaceTexture.SetData(new[] { Color.Blue });
 
-            blockTexture = new Texture2D(GraphicsDevice, 1, 1);
-            blockTexture.SetData(new[] { Color.Green });
+            //blockTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            //blockTexture.SetData(new[] { Color.Green });
 
-            centerTexture = new Texture2D(GraphicsDevice, 1, 1);
+            centerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             centerTexture.SetData(new[] { Color.Yellow });
 
         }
