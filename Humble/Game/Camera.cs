@@ -11,7 +11,6 @@ namespace Humble
     public class Camera
     {
         private Player Player;
-        private GraphicsDevice graphicsDevice;
 
         public Camera(Player player)
         {

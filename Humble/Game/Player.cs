@@ -19,7 +19,7 @@ namespace Humble
 
         private int boundsSize = 20;
         private int playerSize = 40;
-        private float movementSpeed = 1;
+        private float movementSpeed = 6;
         private float speedModifier = 1;
 
         public Vector2 position;
