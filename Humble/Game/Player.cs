@@ -208,7 +208,10 @@ namespace Humble
 
             var sourceRectangle = currentAnimation.CurrentRectangle;
             spriteBatch.Draw(playerTexture, topLeftOfSprite, sourceRectangle, Color.White);
-            spriteBatch.Draw(positionTexture, positionBounds, Color.White);
+
+            // DEBUG 
+            //spriteBatch.Draw(positionTexture, positionBounds, Color.White);
+
             spriteBatch.End();
         }
 
