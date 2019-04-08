@@ -31,11 +31,12 @@ namespace Humble
             base.Update(gameTime);
         }
 
-        public void CreatePlayer(Input input)
+        public Player CreatePlayer(Input input)
         {
             Player player = new Player(game, input);
             Game.Components.Add(player);
             players.Add(player);
+            return player;
         }
 
         public List<Player> GetPlayers()

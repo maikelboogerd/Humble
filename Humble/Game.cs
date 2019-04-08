@@ -17,6 +17,9 @@ namespace Humble
         public PlayerController playerController;
         public WorldController worldController;
 
+        public Player Player;
+        public World World;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -37,26 +40,17 @@ namespace Humble
             Components.Add(playerController = new PlayerController(this));
             Components.Add(worldController = new WorldController(this));
 
-            worldController.CreateWorld();
+            World = worldController.CreateWorld();
+            Player = playerController.CreatePlayer(new Input()
+                {
+                    Up = Keys.W,
+                    Down = Keys.S,
+                    Left = Keys.A,
+                    Right = Keys.D
+                }
+            );
 
-            Input playerOneInput = new Input()
-            {
-                Up = Keys.W,
-                Down = Keys.S,
-                Left = Keys.A,
-                Right = Keys.D
-            };
-
-            Input playerTwoInput = new Input()
-            {
-                Up = Keys.Up,
-                Down = Keys.Down,
-                Left = Keys.Left,
-                Right = Keys.Right
-            };
-
-            playerController.CreatePlayer(playerOneInput);
-            playerController.CreatePlayer(playerTwoInput);
+            GameService.AddService<Camera>(new Camera(Player));
 
             base.Initialize();
 
