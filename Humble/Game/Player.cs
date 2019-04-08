@@ -19,7 +19,7 @@ namespace Humble
 
         private int boundsSize = 20;
         private int playerSize = 40;
-        private float movementSpeed = 5;
+        private float movementSpeed = 1;
         private float speedModifier = 1;
 
         public Vector2 position;
@@ -28,6 +28,15 @@ namespace Humble
 
         private Texture2D positionTexture;
         private Texture2D playerTexture;
+
+        Humble.Animation walkDown;
+        Humble.Animation walkLeft;
+        Humble.Animation walkRight;
+        Humble.Animation walkUp;
+        Humble.Animation currentAnimation;
+
+        public int animationWidth = 64;
+        public int animationHeight = 64;
 
         public Player(Game game, Input input) : base(game)
         {
@@ -57,9 +66,57 @@ namespace Humble
             positionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             positionTexture.SetData(new[] { Color.Red });
 
-            //playerTexture = Game.Content.Load<Texture2D>("Box");
-            playerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            playerTexture.SetData(new[] { Color.Black });
+            playerTexture = Game.Content.Load<Texture2D>("charactersheet");
+
+            walkUp = new Humble.Animation();
+            walkUp.AddFrame(new Rectangle(64 * 0, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 1, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 2, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 3, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 4, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 5, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 6, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 7, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 8, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            walkDown = new Humble.Animation();
+            walkDown.AddFrame(new Rectangle(64 * 0, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 1, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 2, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 3, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 4, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 5, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 6, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 7, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkDown.AddFrame(new Rectangle(64 * 8, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            walkLeft = new Humble.Animation();
+            walkLeft.AddFrame(new Rectangle(64 * 0, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 1, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 2, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 3, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 4, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 5, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 6, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 7, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkLeft.AddFrame(new Rectangle(64 * 8, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            walkUp = new Humble.Animation();
+            walkUp.AddFrame(new Rectangle(64 * 0, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 1, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 2, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 3, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 4, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 5, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 6, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 7, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkUp.AddFrame(new Rectangle(64 * 8, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            //playerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            //playerTexture.SetData(new[] { Color.Black });
+
+            // Create a new SpriteBatch, which can be used to draw textures.
+
 
             changePosition(game.worldController.GetWorld().spawnPoint());
 
@@ -93,6 +150,12 @@ namespace Humble
         public override void Update(GameTime gameTime)
         {
             handleInput();
+
+            // temporary - we'll replace this with logic based off of which way the
+            // character is moving when we add movement logic
+            currentAnimation = walkDown;
+
+            currentAnimation.Update(gameTime);
         }
 
         /// Draw
@@ -101,8 +164,9 @@ namespace Humble
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
-            //spriteBatch.Begin();
-            spriteBatch.Draw(playerTexture, playerBounds, Color.White);
+            Vector2 topLeftOfSprite = new Vector2(playerBounds.X, playerBounds.Y);
+            var sourceRectangle = currentAnimation.CurrentRectangle;
+            spriteBatch.Draw(playerTexture, topLeftOfSprite, sourceRectangle, Color.White);
             spriteBatch.Draw(positionTexture, positionBounds, Color.White);
             spriteBatch.End();
         }

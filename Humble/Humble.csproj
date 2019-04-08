@@ -43,6 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
+    <Compile Include="Game\Animation.cs" />
+    <Compile Include="Game\AnimationFrame.cs" />
     <Compile Include="Game\Blocks\Grass.cs" />
     <Compile Include="Game\Blocks\Ice.cs" />
     <Compile Include="Game\Blocks\Lava.cs" />
