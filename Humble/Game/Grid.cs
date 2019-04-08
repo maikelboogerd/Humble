@@ -9,18 +9,16 @@ namespace Humble
 {
     public class Grid
     {
-        public int Width;
-        public int Height;
+        private List<int> Layout;
         public List<IsometricBlock> blocks;
 
-        public Grid(int width, int height)
+        public Grid(List<int> layout)
         {
-            Width = width;
-            Height = height;
+            Layout = layout;
             blocks = new List<IsometricBlock>();
         }
 
-        public void Fill()
+        public void Fill(TypedDictionary blockMapping)
         {
             // Loop over the rows/columns and create each block in order.
             for (int yIndex = 0; yIndex < Height; ++yIndex)
@@ -28,15 +26,35 @@ namespace Humble
                 for (int xIndex = 0; xIndex < Width; ++xIndex)
                 {
                     Vector2 position;
+                    int loopIndex = (Math.Max(xIndex, 1) * Math.Max(yIndex, 1)) - 1;
 
                     if (yIndex % 2 == 0)
                         position = new Vector2(xIndex * IsometricBlock.Width - (IsometricBlock.Width / 2), (yIndex * IsometricBlock.Height / 2) / 2);
                     else
                         position = new Vector2(xIndex * IsometricBlock.Width, (yIndex * IsometricBlock.Height / 2) / 2);
 
-                    IsometricBlock isometricBlock = new Blocks.Grass(position);
-                    blocks.Add(isometricBlock);
+                    // Fetch the int <> block type from the mapping and create the instance.
+                    Type blockClass = blockMapping.Get(Layout[loopIndex]);
+                    IsometricBlock instance = (IsometricBlock)Activator.CreateInstance(blockClass, position);
+
+                    blocks.Add(instance);
                 }
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return (int)Math.Sqrt(Layout.Count);
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return (int)Math.Sqrt(Layout.Count);
             }
         }
     }

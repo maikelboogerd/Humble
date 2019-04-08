@@ -17,17 +17,18 @@ namespace Humble
 
         public static Polygon AxisToPolygon(List<Vector2> axis)
         {
-            // Construct a Polygon from a list of axis.
             Polygon polygon = new Polygon();
             for (int i = 0; i < axis.Count; ++i)
             {
+                Vector2 pointA = axis[i];
                 Vector2 pointB;
+
                 if (i != axis.Count - 1)
                     pointB = axis[i + 1];
                 else
                     pointB = axis[0];
-                // Convert the points to a PolygonLine and add it.
-                PolygonLine polygonLine = new PolygonLine(axis[i], pointB);
+
+                PolygonLine polygonLine = new PolygonLine(pointA, pointB);
                 polygon.Lines.Add(polygonLine);
             }
             return polygon;
