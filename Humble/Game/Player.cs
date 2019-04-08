@@ -27,11 +27,20 @@ namespace Humble
         private Texture2D positionTexture;
         private Texture2D playerTexture;
 
-        Humble.Animation walkDown;
-        Humble.Animation walkLeft;
-        Humble.Animation walkRight;
-        Humble.Animation walkUp;
-        Humble.Animation currentAnimation;
+        public String state = null;
+        public String latestState = null;
+
+        Animation walkDown;
+        Animation walkLeft;
+        Animation walkRight;
+        Animation walkUp;
+
+        Animation standDown;
+        Animation standUp;
+        Animation standLeft;
+        Animation standRight;
+
+        Animation currentAnimation;
 
         public int animationWidth = 64;
         public int animationHeight = 64;
@@ -100,22 +109,29 @@ namespace Humble
             walkLeft.AddFrame(new Rectangle(64 * 7, 64, 64, 64), TimeSpan.FromSeconds(0.25));
             walkLeft.AddFrame(new Rectangle(64 * 8, 64, 64, 64), TimeSpan.FromSeconds(0.25));
 
-            walkUp = new Humble.Animation();
-            walkUp.AddFrame(new Rectangle(64 * 0, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 1, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 2, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 3, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 4, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 5, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 6, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 7, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 8, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight = new Humble.Animation();
+            walkRight.AddFrame(new Rectangle(64 * 0, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 1, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 2, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 3, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 4, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 5, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 6, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 7, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            walkRight.AddFrame(new Rectangle(64 * 8, 192, 64, 64), TimeSpan.FromSeconds(0.25));
 
-            //playerTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            //playerTexture.SetData(new[] { Color.Black });
+            // Standing animations only have a single frame of animation:
+            standDown = new Animation();
+            standDown.AddFrame(new Rectangle(0, 128, 64, 64), TimeSpan.FromSeconds(.25));
 
-            // Create a new SpriteBatch, which can be used to draw textures.
+            standRight = new Animation();
+            standRight.AddFrame(new Rectangle(0, 192, 64, 64), TimeSpan.FromSeconds(.25));
 
+            standLeft = new Animation();
+            standLeft.AddFrame(new Rectangle(0, 64, 64, 64), TimeSpan.FromSeconds(.25));
+
+            standUp = new Animation();
+            standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
 
             changePosition(game.worldController.GetWorld().spawnPoint());
 
@@ -133,10 +149,34 @@ namespace Humble
         public override void Update(GameTime gameTime)
         {
             handleInput();
+            currentAnimation = standDown;
 
-            // temporary - we'll replace this with logic based off of which way the
-            // character is moving when we add movement logic
-            currentAnimation = walkDown;
+            if (state != null)
+            {
+                if (state == "walkRight")
+                    currentAnimation = walkRight;
+                if (state == "walkLeft")
+                    currentAnimation = walkLeft;
+                if (state == "walkUp")
+                    currentAnimation = walkUp;
+                if (state == "walkDown")
+                    currentAnimation = walkDown;
+            }
+            else
+            {
+                //If the character was walking, we can set the standing animation
+                //according to the walking animation that is playing:
+                if (latestState == "walkRight")
+                    currentAnimation = standRight;
+                if (latestState == "walkLeft")
+                    currentAnimation = standLeft;
+                if (latestState == "walkUp")
+                    currentAnimation = standUp;
+                if (latestState == "walkDown")
+                    currentAnimation = standDown;
+                 //if none of the above code hit then the character
+                 //is already standing, so no need to change the animation.
+            }
 
             currentAnimation.Update(gameTime);
         }
@@ -179,22 +219,41 @@ namespace Humble
 
             float positionModifier = (movementSpeed * speedModifier);
 
+            state = null;
+
             if (Keyboard.GetState().IsKeyDown(input.Up))
+            {
                 targetPosition.Y -= positionModifier;
+                state = "walkUp";
+                latestState = "walkUp";
+            }
 
             if (Keyboard.GetState().IsKeyDown(input.Down))
+            {
                 targetPosition.Y += positionModifier;
+                state = "walkDown";
+                latestState = "walkDown";
+            }
 
             if (Keyboard.GetState().IsKeyDown(input.Right))
+            {
                 targetPosition.X += positionModifier;
+                state = "walkRight";
+                latestState = "walkRight";
+            }
 
             if (Keyboard.GetState().IsKeyDown(input.Left))
+            {
                 targetPosition.X -= positionModifier;
+                state = "walkLeft";
+                latestState = "walkLeft";
+            }
 
             Rectangle targetBounds = new Rectangle((int)targetPosition.X, (int)targetPosition.Y, 1, 1);
 
             if (game.worldController.GetWorld().Intersects(targetBounds))
                 changePosition(targetPosition);
+
         }
     }
 }
