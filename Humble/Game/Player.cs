@@ -131,9 +131,8 @@ namespace Humble
             standUp = new Animation();
             standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
 
+            changePosition(game.worldController.GetWorld().spawnPoint);
             currentAnimation = standDown;
-
-            changePosition(game.worldController.GetWorld().spawnPoint());
 
             base.Initialize();
         }
