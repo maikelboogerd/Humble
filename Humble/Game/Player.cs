@@ -131,6 +131,8 @@ namespace Humble
             standUp = new Animation();
             standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
 
+            currentAnimation = standDown;
+
             changePosition(game.worldController.GetWorld().spawnPoint());
 
             base.Initialize();
@@ -163,8 +165,6 @@ namespace Humble
         public override void Update(GameTime gameTime)
         {
             handleInput();
-            currentAnimation = standDown;
-
             if (state != null)
             {
                 if (state == "walkRight")
@@ -188,6 +188,7 @@ namespace Humble
                     currentAnimation = standUp;
                 if (latestState == "walkDown")
                     currentAnimation = standDown;
+                latestState = null;
                  //if none of the above code hit then the character
                  //is already standing, so no need to change the animation.
             }
