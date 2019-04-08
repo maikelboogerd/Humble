@@ -122,6 +122,11 @@ namespace Humble
             base.Initialize();
         }
 
+        public Vector2 Center()
+        {
+            return new Vector2(positionBounds.X / 2, positionBounds.Y / 2);
+        }
+
         /// Update
         /// 
 

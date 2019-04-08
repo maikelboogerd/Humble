@@ -1,4 +1,4 @@
-Humble/obj
-Humble/bin
-.vs/*
+obj
+bin
+.vs
 .DS_Store
