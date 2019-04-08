@@ -42,8 +42,8 @@ namespace Humble
 
         Animation currentAnimation;
 
-        public int animationWidth = 64;
-        public int animationHeight = 64;
+        public int frameWidth = 64;
+        public int frameHeight = 64;
 
         public Player(Game game, Input input) : base(game)
         {
@@ -203,7 +203,10 @@ namespace Humble
         {
             Camera camera = GameService.GetService<Camera>();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
-            Vector2 topLeftOfSprite = new Vector2(playerBounds.X, playerBounds.Y);
+
+            // TODO: Replace hardcoded values for position
+            Vector2 topLeftOfSprite = new Vector2(this.position.X - 32, this.position.Y - 64);
+
             var sourceRectangle = currentAnimation.CurrentRectangle;
             spriteBatch.Draw(playerTexture, topLeftOfSprite, sourceRectangle, Color.White);
             spriteBatch.Draw(positionTexture, positionBounds, Color.White);
