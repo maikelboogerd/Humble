@@ -10,7 +10,6 @@ namespace Humble
 {
     public class World : DrawableGameComponent
     {
-        private Game game;
         private SpriteBatch spriteBatch;
         private Random random = new Random();
 
@@ -19,7 +18,6 @@ namespace Humble
 
         public World(Game game) : base(game)
         {
-            this.game = game;
         }
 
         /// Initialize
@@ -46,7 +44,6 @@ namespace Humble
 
                     IsometricBlock isometricBlock = new Blocks.Grass(blockPosition);
                     isometricBlocks.Add(isometricBlock);
-
                 }
             }
 
@@ -85,7 +82,8 @@ namespace Humble
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(game.player.camera.Position));
+            Camera camera = GameService.GetService<Camera>();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
 
             // Draw each isometric block by calling it's Draw().
             foreach (IsometricBlock isometricBlock in isometricBlocks)

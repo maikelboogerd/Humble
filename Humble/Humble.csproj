@@ -51,8 +51,10 @@
     <Compile Include="GameService.cs" />
     <Compile Include="Game\Blocks\Snow.cs" />
     <Compile Include="Game\Camera.cs" />
+    <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Input.cs" />
     <Compile Include="Game\IsometricBlock.cs" />
+    <Compile Include="Game\Level.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\PlayerController.cs" />
     <Compile Include="Game\Shapes\Polygon.cs" />

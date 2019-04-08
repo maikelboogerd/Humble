@@ -15,8 +15,6 @@ namespace Humble
         private Input input;
         private SpriteBatch spriteBatch;
 
-        public Camera camera;
-
         private int boundsSize = 20;
         private int playerSize = 40;
         private float movementSpeed = 6;
@@ -42,7 +40,6 @@ namespace Humble
         {
             this.game = game;
             this.input = input;
-            camera = new Camera(this);
         }
 
         /// Initialize
@@ -163,6 +160,7 @@ namespace Humble
 
         public override void Draw(GameTime gameTime)
         {
+            Camera camera = GameService.GetService<Camera>();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
             Vector2 topLeftOfSprite = new Vector2(playerBounds.X, playerBounds.Y);
             var sourceRectangle = currentAnimation.CurrentRectangle;
