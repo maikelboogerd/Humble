@@ -29,7 +29,7 @@ namespace Humble
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gridSize = new Vector2(4, 6);
+            gridSize = new Vector2(5, 8);
             isometricBlocks = new List<IsometricBlock>();
 
             // Loop over the grid and create each block in order.
@@ -85,7 +85,7 @@ namespace Humble
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(game.player.camera.Position));
 
             // Draw each isometric block by calling it's Draw().
             foreach (IsometricBlock isometricBlock in isometricBlocks)

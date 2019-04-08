@@ -14,6 +14,8 @@ namespace Humble
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public Player player;
+
         public PlayerController playerController;
         public WorldController worldController;
 
@@ -55,8 +57,8 @@ namespace Humble
                 Right = Keys.Right
             };
 
-            playerController.CreatePlayer(playerOneInput);
-            playerController.CreatePlayer(playerTwoInput);
+            player = playerController.CreatePlayer(playerOneInput);
+            //playerController.CreatePlayer(playerTwoInput);
 
             base.Initialize();
 

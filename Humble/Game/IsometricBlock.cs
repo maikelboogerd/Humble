@@ -11,8 +11,8 @@ namespace Humble
 {
     public abstract class IsometricBlock
     {
-        public static int Width = 200;
-        public static int Height = 200;
+        public static int Width = 150;
+        public static int Height = 180;
 
         public Vector2 position;
         public Rectangle positionRectangle;

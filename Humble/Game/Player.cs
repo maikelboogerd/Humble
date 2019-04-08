@@ -15,6 +15,8 @@ namespace Humble
         private Input input;
         private SpriteBatch spriteBatch;
 
+        public Camera camera;
+
         private int boundsSize = 20;
         private int playerSize = 40;
         private float movementSpeed = 5;
@@ -27,11 +29,11 @@ namespace Humble
         private Texture2D positionTexture;
         private Texture2D playerTexture;
 
-
         public Player(Game game, Input input) : base(game)
         {
             this.game = game;
             this.input = input;
+            camera = new Camera(this);
         }
 
         /// Initialize
@@ -69,6 +71,22 @@ namespace Humble
             return new Vector2(positionBounds.X / 2, positionBounds.Y / 2);
         }
 
+        public int X
+        {
+            get
+            {
+                return positionBounds.X + positionBounds.Width / 2;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return positionBounds.Y + positionBounds.Height / 2;
+            }
+        }
+
         /// Update
         /// 
 
@@ -82,7 +100,8 @@ namespace Humble
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
+            //spriteBatch.Begin();
             spriteBatch.Draw(playerTexture, playerBounds, Color.White);
             spriteBatch.Draw(positionTexture, positionBounds, Color.White);
             spriteBatch.End();
