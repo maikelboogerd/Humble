@@ -25,17 +25,20 @@ namespace Humble
             int columnXAxis = 0;
             for (int loopIndex = 0; loopIndex < Layout.Count; ++loopIndex)
             {
+                Vector2 position;
+
                 if (loopIndex % Width == 0)
                 {
                     rowYAxis += 1;
                     columnXAxis = 0;
                 }
-                // Fetch the int <> block type from the mapping and create the instance.
-                Vector2 position;
+
                 if (rowYAxis % 2 == 0)
                     position = new Vector2((columnXAxis + 1) * IsometricBlock.Width - (IsometricBlock.Width / 2), (rowYAxis * IsometricBlock.Height / 2) / 2);
                 else
                     position = new Vector2(columnXAxis * IsometricBlock.Width, (rowYAxis * IsometricBlock.Height / 2) / 2);
+
+                // Fetch the int <> block type from the mapping and create the instance.
                 Type blockClass = blockMapping.Get(Layout[loopIndex]);
                 IsometricBlock instance = (IsometricBlock)Activator.CreateInstance(blockClass, position);
                 blocks.Add(instance);
