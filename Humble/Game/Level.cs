@@ -13,22 +13,23 @@ namespace Humble
         private Random random = new Random();
 
         private Grid grid;
-        private TypedDictionary blockMapping;
+        private ClassMapping blockMapping;
         private List<int> layout = new List<int>() {
-            1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 0, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1,
+            0, 0, 2, 2, 2, 1, 1,
+            0, 0, 2, 2, 1, 1, 1,
+            0, 0, 2, 2, 1, 1, 1,
+            0, 2, 2, 2, 1, 1, 1,
+            2, 2, 2, 2, 1, 1, 1,
+            2, 2, 2, 2, 1, 1, 1,
+            0, 0, 2, 2, 1, 1, 1,
         };
 
         public Level()
         {
-            blockMapping = new TypedDictionary();
-            blockMapping.Add(0, typeof(Blocks.Lava));
+            blockMapping = new ClassMapping();
+            blockMapping.Add(0, typeof(Blocks.Ice));
             blockMapping.Add(1, typeof(Blocks.Grass));
+            blockMapping.Add(2, typeof(Blocks.Snow));
             Console.WriteLine(blockMapping);
         }
 

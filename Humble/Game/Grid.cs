@@ -18,27 +18,28 @@ namespace Humble
             blocks = new List<IsometricBlock>();
         }
 
-        public void Fill(TypedDictionary blockMapping)
+        public void Fill(ClassMapping blockMapping)
         {
             // Loop over the rows/columns and create each block in order.
-            for (int yIndex = 0; yIndex < Height; ++yIndex)
+            int rowYAxis = 0;
+            int columnXAxis = 0;
+            for (int loopIndex = 0; loopIndex < Layout.Count; ++loopIndex)
             {
-                for (int xIndex = 0; xIndex < Width; ++xIndex)
+                if (loopIndex % Width == 0)
                 {
-                    Vector2 position;
-                    int loopIndex = (Math.Max(xIndex, 1) * Math.Max(yIndex, 1)) - 1;
-
-                    if (yIndex % 2 == 0)
-                        position = new Vector2(xIndex * IsometricBlock.Width - (IsometricBlock.Width / 2), (yIndex * IsometricBlock.Height / 2) / 2);
-                    else
-                        position = new Vector2(xIndex * IsometricBlock.Width, (yIndex * IsometricBlock.Height / 2) / 2);
-
-                    // Fetch the int <> block type from the mapping and create the instance.
-                    Type blockClass = blockMapping.Get(Layout[loopIndex]);
-                    IsometricBlock instance = (IsometricBlock)Activator.CreateInstance(blockClass, position);
-
-                    blocks.Add(instance);
+                    rowYAxis += 1;
+                    columnXAxis = 0;
                 }
+                // Fetch the int <> block type from the mapping and create the instance.
+                Vector2 position;
+                if (rowYAxis % 2 == 0)
+                    position = new Vector2((columnXAxis + 1) * IsometricBlock.Width - (IsometricBlock.Width / 2), (rowYAxis * IsometricBlock.Height / 2) / 2);
+                else
+                    position = new Vector2(columnXAxis * IsometricBlock.Width, (rowYAxis * IsometricBlock.Height / 2) / 2);
+                Type blockClass = blockMapping.Get(Layout[loopIndex]);
+                IsometricBlock instance = (IsometricBlock)Activator.CreateInstance(blockClass, position);
+                blocks.Add(instance);
+                columnXAxis += 1;
             }
         }
 

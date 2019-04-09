@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    public class TypedDictionary
+    public class ClassMapping
     {
         private Dictionary<object, Type> dictionary = new Dictionary<object, Type>();
 
