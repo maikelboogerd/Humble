@@ -53,6 +53,7 @@
     <Compile Include="Game\Camera.cs" />
     <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Helpers\ClassMapping.cs" />
+    <Compile Include="Game\Helpers\Shape.cs" />
     <Compile Include="Game\Input.cs" />
     <Compile Include="Game\IsometricBlock.cs" />
     <Compile Include="Game\Level.cs" />
