@@ -13,8 +13,11 @@ namespace Humble
         private SpriteBatch spriteBatch;
         public Level level;
 
+        public Shape shape;
+
         public World(Game game) : base(game)
         {
+            shape = new Shape();
         }
 
         /// Initialize
@@ -32,6 +35,7 @@ namespace Humble
         {
             get
             {
+                return shape.Center();
                 return level.getSpawnPoint();
             }
         }
@@ -41,6 +45,7 @@ namespace Humble
 
         public Boolean Intersects(Rectangle rectangle)
         {
+            return shape.Intersects(rectangle);
             return level.Intersects(rectangle);
         }
 
@@ -56,7 +61,8 @@ namespace Humble
         {
             Camera camera = GameService.GetService<Camera>();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
-            level.Draw(spriteBatch);
+            //level.Draw(spriteBatch);
+            shape.Draw(spriteBatch);
             spriteBatch.End();
         }
     }
