@@ -20,17 +20,17 @@ namespace Humble
         public Point Location;
         public Point Target;
 
-        public Texture2D Texture;
+        private int Velocity;
+        public int travelDistance;
 
-        public int Velocity;
-        public float Angle;
+        private Texture2D Texture;
 
         public Projectile()
         {
             Start = new Point(10, 10);
             Target = new Point(60, 60);
             Velocity = 10;
-            Angle = 10;
+            travelDistance = 0;
         }
 
         public Rectangle Bounds
@@ -41,8 +41,9 @@ namespace Humble
             }
         }
 
-        public void Spawn()
+        public void Spawn(Point spawnPoint)
         {
+            Start = spawnPoint;
             currentState = State.IDLE;
         }
 
@@ -57,6 +58,11 @@ namespace Humble
             currentState = State.TRAVELING;
         }
 
+        public void Destroy()
+        {
+            currentState = State.TRAVELING;
+        }
+
         public void Update()
         {
             switch (currentState)
@@ -68,8 +74,12 @@ namespace Humble
                     }
                 case State.TRAVELING:
                     {
-                        Location.X += Velocity;
-                        Location.Y += Velocity;
+                        if (travelDistance < 8000)
+                        {
+                            Location.X += Velocity;
+                            Location.Y += Velocity;
+                            travelDistance += Velocity;
+                        }
                         break;
                     }
             }
