@@ -60,7 +60,7 @@ namespace Humble
 
         public void Destroy()
         {
-            currentState = State.TRAVELING;
+            currentState = State.INACTIVE;
         }
 
         public void Update()
@@ -88,9 +88,8 @@ namespace Humble
         public void Draw(SpriteBatch spriteBatch)
         {
             GraphicsDevice GraphicsDevice = GameService.GetService<GraphicsDevice>();
-
             Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Texture.SetData(new[] { Color.Blue });
+            Texture.SetData(new[] { Color.Red });
             spriteBatch.Draw(Texture, Bounds, Color.White * 0.5f);
         }
     }
