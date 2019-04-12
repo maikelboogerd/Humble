@@ -13,5 +13,10 @@ namespace Humble
         public Keys Left { get; set; }
         public Keys Right { get; set; }
 
+        /// Combat
+        /// 
+
+        public Keys Shoot { get; set; }
+
     }
 }

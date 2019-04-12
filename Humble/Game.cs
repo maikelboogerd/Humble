@@ -43,10 +43,13 @@ namespace Humble
             World = worldController.CreateWorld();
             Player = playerController.CreatePlayer(new Input()
                 {
+                    // Movement
                     Up = Keys.W,
                     Down = Keys.S,
                     Left = Keys.A,
-                    Right = Keys.D
+                    Right = Keys.D,
+                    // Combat
+                    Shoot = Keys.Space,
                 }
             );
 
