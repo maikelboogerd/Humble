@@ -52,7 +52,7 @@ namespace Humble
         }
 
         /// Initialize
-        /// 
+        ///
 
         public override void Initialize()
         {
@@ -75,61 +75,110 @@ namespace Humble
             playerTexture = Game.Content.Load<Texture2D>("charactersheet");
 
             walkUp = new Humble.Animation();
-            walkUp.AddFrame(new Rectangle(64 * 0, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 1, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 2, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 3, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 4, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 5, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 6, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 7, 0, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkUp.AddFrame(new Rectangle(64 * 8, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            int columns = 4;
+            int rows = 9;
 
-            walkDown = new Humble.Animation();
-            walkDown.AddFrame(new Rectangle(64 * 0, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 1, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 2, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 3, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 4, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 5, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 6, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 7, 128, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkDown.AddFrame(new Rectangle(64 * 8, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            int walkUpColumn = 0;
+            walkUp = new Humble.Animation();
 
+            int walkLeftColumn = 1;
             walkLeft = new Humble.Animation();
-            walkLeft.AddFrame(new Rectangle(64 * 0, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 1, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 2, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 3, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 4, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 5, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 6, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 7, 64, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkLeft.AddFrame(new Rectangle(64 * 8, 64, 64, 64), TimeSpan.FromSeconds(0.25));
 
+            int walkDownColumn = 2;
+            walkDown = new Humble.Animation();
+
+            int walkRightColumn = 3;
             walkRight = new Humble.Animation();
-            walkRight.AddFrame(new Rectangle(64 * 0, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 1, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 2, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 3, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 4, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 5, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 6, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 7, 192, 64, 64), TimeSpan.FromSeconds(0.25));
-            walkRight.AddFrame(new Rectangle(64 * 8, 192, 64, 64), TimeSpan.FromSeconds(0.25));
 
             // Standing animations only have a single frame of animation:
             standDown = new Animation();
-            standDown.AddFrame(new Rectangle(0, 128, 64, 64), TimeSpan.FromSeconds(.25));
-
             standRight = new Animation();
-            standRight.AddFrame(new Rectangle(0, 192, 64, 64), TimeSpan.FromSeconds(.25));
-
             standLeft = new Animation();
-            standLeft.AddFrame(new Rectangle(0, 64, 64, 64), TimeSpan.FromSeconds(.25));
-
             standUp = new Animation();
-            standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
+
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; i++)
+                {
+                    if (i == walkUpColumn)
+                    {
+                        if (j == rows - 1) {
+                            standUp.AddFrame(new Rectangle(0, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(.25));
+                        }
+                        walkUp.AddFrame(new Rectangle(frameWidth * i, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(0.25));
+                    }
+                    if (i == walkLeftColumn)
+                    {
+                        if (j == rows - 1)
+                        {
+                            standLeft.AddFrame(new Rectangle(0, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(.25));
+                        }
+                        walkLeft.AddFrame(new Rectangle(frameWidth * i, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(0.25));
+                    }
+                    if (i == walkDownColumn)
+                    {
+                        if (j == rows - 1)
+                        {
+                            standDown.AddFrame(new Rectangle(0, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(.25));
+                        }
+                        walkDown.AddFrame(new Rectangle(frameWidth * i, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(0.25));
+                    }
+                    if (i == walkRightColumn)
+                    {
+                        if (j == rows - 1)
+                        {
+                            standRight.AddFrame(new Rectangle(0, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(.25));
+                        }
+                        walkRight.AddFrame(new Rectangle(frameWidth * i, frameHeight * i, frameWidth, frameHeight), TimeSpan.FromSeconds(0.25));
+                    }
+                }
+
+            }
+            // walkUp.AddFrame(new Rectangle(64 * 0, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 1, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 2, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 3, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 4, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 5, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 6, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 7, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkUp.AddFrame(new Rectangle(64 * 8, 0, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            // walkDown = new Humble.Animation();
+            // walkDown.AddFrame(new Rectangle(64 * 0, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 1, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 2, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 3, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 4, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 5, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 6, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 7, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkDown.AddFrame(new Rectangle(64 * 8, 128, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            // walkLeft = new Humble.Animation();
+            // walkLeft.AddFrame(new Rectangle(64 * 0, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 1, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 2, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 3, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 4, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 5, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 6, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 7, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkLeft.AddFrame(new Rectangle(64 * 8, 64, 64, 64), TimeSpan.FromSeconds(0.25));
+
+            // walkRight = new Humble.Animation();
+            // walkRight.AddFrame(new Rectangle(64 * 0, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 1, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 2, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 3, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 4, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 5, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 6, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 7, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+            // walkRight.AddFrame(new Rectangle(64 * 8, 192, 64, 64), TimeSpan.FromSeconds(0.25));
+
+
 
             changePosition(game.worldController.GetWorld().spawnPoint);
             currentAnimation = standDown;
@@ -159,7 +208,7 @@ namespace Humble
         }
 
         /// Update
-        /// 
+        ///
 
         public override void Update(GameTime gameTime)
         {
@@ -196,7 +245,7 @@ namespace Humble
         }
 
         /// Draw
-        /// 
+        ///
 
         public override void Draw(GameTime gameTime)
         {
@@ -209,14 +258,14 @@ namespace Humble
             var sourceRectangle = currentAnimation.CurrentRectangle;
             spriteBatch.Draw(playerTexture, topLeftOfSprite, sourceRectangle, Color.White);
 
-            // DEBUG 
+            // DEBUG
             //spriteBatch.Draw(positionTexture, positionBounds, Color.White);
 
             spriteBatch.End();
         }
 
         /// Movement
-        /// 
+        ///
 
         public void changePosition(Vector2 position)
         {
@@ -230,7 +279,7 @@ namespace Humble
             playerBounds.X = (int)position.X - playerSize / 2;
             playerBounds.Y = (int)position.Y - playerSize * 2;
         }
-        
+
         public void handleInput()
         {
             Vector2 targetPosition = position;
