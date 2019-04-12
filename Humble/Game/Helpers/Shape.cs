@@ -26,18 +26,18 @@ namespace Humble
             };
             innerPoints = new List<Vector2>()
             {
-                //new Vector2(outerRectangle.X + (outerRectangle.Width / 2), outerRectangle.Y),
-                //new Vector2(outerRectangle.X + outerRectangle.Width, outerRectangle.Y + (outerRectangle.Height / 2)),
-                //new Vector2(outerRectangle.X + (outerRectangle.Width / 2), outerRectangle.Y + outerRectangle.Height),
-                //new Vector2(outerRectangle.X, outerRectangle.Y + (outerRectangle.Height / 2)),
-                new Vector2(10, 0) * 5,
-                new Vector2(20, 0) * 5,
-                new Vector2(30, 10) * 5,
-                new Vector2(30, 20) * 5,
-                new Vector2(20, 30) * 5,
-                new Vector2(10, 30) * 5,
-                new Vector2(0, 20) * 5,
-                new Vector2(0, 10) * 5,
+                new Vector2(outerRectangle.X + (outerRectangle.Width / 2), outerRectangle.Y),
+                new Vector2(outerRectangle.X + outerRectangle.Width, outerRectangle.Y + (outerRectangle.Height / 2)),
+                new Vector2(outerRectangle.X + (outerRectangle.Width / 2), outerRectangle.Y + outerRectangle.Height),
+                new Vector2(outerRectangle.X, outerRectangle.Y + (outerRectangle.Height / 2)),
+                //new Vector2(10, 0) * 5,
+                //new Vector2(20, 0) * 5,
+                //new Vector2(30, 10) * 5,
+                //new Vector2(30, 20) * 5,
+                //new Vector2(20, 30) * 5,
+                //new Vector2(10, 30) * 5,
+                //new Vector2(0, 20) * 5,
+                //new Vector2(0, 10) * 5,
             };
         }
 
