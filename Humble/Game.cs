@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,14 +12,23 @@ namespace Humble
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+        Random random = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Input input = new Input()
+        {
+            Up = Keys.W,
+            Down = Keys.S,
+            Left = Keys.A,
+            Right = Keys.D,
+            Shoot = Keys.Space,
+        };
+
         public PlayerController playerController;
         public WorldController worldController;
-
-        public Player Player;
-        public World World;
+        public ProjectileController projectileController;
 
         public Game()
         {
@@ -34,29 +44,21 @@ namespace Humble
         /// </summary>
         protected override void Initialize()
         {
-            GameService.AddService<GraphicsDevice>(GraphicsDevice);
-            GameService.AddService<ContentManager>(Content);
-
             Components.Add(playerController = new PlayerController(this));
             Components.Add(worldController = new WorldController(this));
+            Components.Add(projectileController = new ProjectileController(this));
 
-            World = worldController.CreateWorld();
-            Player = playerController.CreatePlayer(new Input()
-                {
-                    // Movement
-                    Up = Keys.W,
-                    Down = Keys.S,
-                    Left = Keys.A,
-                    Right = Keys.D,
-                    // Combat
-                    Shoot = Keys.Space,
-                }
-            );
+            worldController.Create();
+            Player player = playerController.Create(input);
 
-            GameService.AddService<Camera>(new Camera(Player));
+            GameService.AddService<GraphicsDevice>(GraphicsDevice);
+            GameService.AddService<ContentManager>(Content);
+            GameService.AddService<PlayerController>(playerController);
+            GameService.AddService<WorldController>(worldController);
+            GameService.AddService<ProjectileController>(projectileController);
+            GameService.AddService<Camera>(new Camera(player));
 
             base.Initialize();
-
         }
 
         /// <summary>
@@ -87,6 +89,14 @@ namespace Humble
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            Point spawnPoint = new Point(random.Next(0, 800), random.Next(0, 800));
+            Projectile projectile = new Projectile(this);
+
+            projectileController.Add(projectile);
+
+            projectile.Spawn(spawnPoint);
+            projectile.Shoot();
 
             base.Update(gameTime);
         }
