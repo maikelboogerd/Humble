@@ -162,7 +162,7 @@ namespace Differ.Shapes
             texture.SetData(new[] { Color.Red });
 			foreach (Vector vertice in vertices){
                 //DrawLine(spriteBatch, vertice.x, vertice.y);
-                spriteBatch.Draw(texture, new Rectangle((int)vertice.x, (int)vertice.y, 2, 2), Color.White * 0.5f);
+                spriteBatch.Draw(texture, new Rectangle((int)vertice.x, (int)vertice.y, 4, 4), Color.White * 0.5f);
 			}
 		}
 	}

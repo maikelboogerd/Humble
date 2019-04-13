@@ -218,6 +218,14 @@ namespace Humble
             {
                 //DrawLine(spriteBatch, vertice.x, vertice.y);
                 spriteBatch.Draw(positionTexture, new Rectangle((int)vertice.x + (int)this.position.X, (int)vertice.y + (int)this.position.Y, 2, 2), Color.White * 0.5f);
+                // Console.WriteLine("1st-------");
+                // Console.WriteLine((int)vertice.x + (int)this.position.X);
+                // Console.WriteLine("2nd-------");
+                // Console.WriteLine((int)vertice.y + (int)this.position.Y);
+                // Console.WriteLine("3rd-------");
+                // Console.WriteLine(2);
+                // Console.WriteLine("4th-------");
+                // Console.WriteLine(2);
             }
 
             spriteBatch.End();

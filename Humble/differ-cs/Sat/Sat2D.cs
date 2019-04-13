@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Differ.Data;
 using Differ.Math;
 using Differ.Shapes;
@@ -52,7 +53,7 @@ namespace Differ.Sat
 	        var max2 = circle.transformedRadius;
 	        var min2 = -circle.transformedRadius;
 	        var offset = Util.vec_dot(normalAxisX, normalAxisY, -circleX, -circleY);
-	            
+
 	        min1 += offset;
 	        max1 += offset;
 
@@ -156,7 +157,7 @@ namespace Differ.Sat
 
 	        //if your distance is less than the totalRadius square(because distance is squared)
 	        if (distancesq < totalRadius * totalRadius) {
-	       
+
 	            //find the difference. Square roots are needed here.
 	            float difference = (float) (totalRadius - System.Math.Sqrt(distancesq));
 
@@ -193,18 +194,18 @@ namespace Differ.Sat
 		static ShapeCollision tmp2 = new ShapeCollision();
 
 	    public static ShapeCollision testPolygonVsPolygon(Polygon polygon1, Polygon polygon2, bool flip = false ) {
-
 	        var output = new ShapeCollision();
-	        
+
 	        if ( (tmp1 = checkPolygons(polygon1, polygon2, flip)) == null) {
-	            return null;
+                return null;
 	        }
 
 	        if ( (tmp2 = checkPolygons(polygon2, polygon1, !flip)) == null) {
-	            return null;
+                return null;
 	        }
 
-	        ShapeCollision result = null;
+
+            ShapeCollision result = null;
 			ShapeCollision other = null;
 
 	        if (System.Math.Abs(tmp1.overlap) < System.Math.Abs(tmp2.overlap)) {
@@ -249,9 +250,9 @@ namespace Differ.Sat
 	            var t2 = (-b + d) / (2 * a);
 
 	            if (ray.infinite || (t1 <= 1.0 && t1 >= 0.0)) {
-	                
+
 	                var result = new RayCollision();
-	                    
+
                     result.shape = circle;
                     result.ray = ray;
                     result.start = t1;
@@ -311,7 +312,7 @@ namespace Differ.Sat
 	            var result = new RayCollision();
                 result.shape = polygon;
                 result.ray = ray;
-                result.start = min_u; 
+                result.start = min_u;
                 result.end = max_u;
 	            return result;
 	        }
@@ -352,9 +353,7 @@ namespace Differ.Sat
 
         /** Internal api - implementation details for testPolygonVsPolygon */
 	    public static ShapeCollision checkPolygons(Polygon polygon1, Polygon polygon2, bool flip = false ) {
-
 	        var result = new ShapeCollision();
-
 	        // TODO: This is unused, check original source
 	        var offset = 0.0f;
 	        var test1 = 0.0f;
@@ -402,10 +401,12 @@ namespace Differ.Sat
 
 	            test1 = min1 - max2;
 	            test2 = min2 - max1;
+                Console.WriteLine("-----");
+                Console.WriteLine(test1);
+                Console.WriteLine(test2);
+                if (test1 > 0 || test2 > 0) return null;
 
-	            if(test1 > 0 || test2 > 0) return null;
-
-	            var distMin = -(max2 - min1);
+                var distMin = -(max2 - min1);
 	            if (flip) distMin *= -1;
 
 	            if (System.Math.Abs(distMin) < closest) {
@@ -427,14 +428,15 @@ namespace Differ.Sat
 	            result.unitVectorY = -result.unitVectorY;
 	        }
 
-	        return result;
+
+            return result;
 
 	    }
 
 		/** Internal helper for ray overlaps */
 		public static float rayU(float udelta, float aX, float aY, float bX, float bY, float dX, float dY) {
 	        return (dX * (aY - bY) - dY * (aX - bX)) / udelta;
-	    } 
+	    }
 
 	    public static float findNormalAxisX(IList<Vector> verts, int index) {
 	        var v2 = (index >= verts.Count - 1) ? verts[0] : verts[index + 1];
@@ -449,5 +451,5 @@ namespace Differ.Sat
 }
 
 
-        
+
 

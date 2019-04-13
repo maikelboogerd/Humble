@@ -64,6 +64,7 @@ namespace Humble
         {
             // Check if a point lies within the surface area of this block.
             Polygon polygon = getPolygon();
+            return true;
             return polygon.Contains(point);
         }
 

@@ -17,8 +17,8 @@ namespace Humble
 
         public Level level;
         public Shape shape;
-        public Differ.Shapes.Circle circle;
-        public Differ.Shapes.Polygon box1;
+
+        // public Differ.Shapes.Polygon box1;
         public Differ.Shapes.Polygon box2;
 
         public World(Game game) : base(game)
@@ -35,7 +35,7 @@ namespace Humble
             level = new Level();
             shape = new Shape();
 
-            box1 = Differ.Shapes.Polygon.rectangle(0, 0, 100, 300);
+            // box1 = Differ.Shapes.Polygon.rectangle(0, 0, 100, 300);
             box2 = Differ.Shapes.Polygon.rectangle(0, 0, 50, 150);
 
             level.Generate();
@@ -69,11 +69,11 @@ namespace Humble
 
             level.Draw(spriteBatch);
             //shape.Draw(spriteBatch);
-            // circle.Draw(spriteBatch);
+            //circle.Draw(spriteBatch);
             //var box = Differ.Shapes.Polygon.rectangle(0, 0, 50, 150);
 
             if (true){
-                box1.Draw(spriteBatch);
+                // box1.Draw(spriteBatch);
                 box2.Draw(spriteBatch);
             }
 
@@ -90,23 +90,22 @@ namespace Humble
 
         public Boolean Intersects(Rectangle rectangle)
         {
+            Player player = GameService.GetService<Player>();
 
+            var collideInfo = Collision.shapeWithShape(player.playerBounds, box2);
 
-            //box.rotation = 45;
+            if (collideInfo != null)
+            {
+                Console.WriteLine("**********");
+                //Console.WriteLine(collideInfo);
+                //use collideInfo.separationX
+                //    collideInfo.separationY
+                //    collideInfo.normalAxisX
+                //    collideInfo.normalAxisY
+                //    collideInfo.overlap
+            }
 
-            //var collideInfo = Collision.shapeWithShape(circle, box);
-
-            //if (collideInfo != null)
-            //{
-            //    Console.WriteLine("-----------------");
-            //    Console.WriteLine(collideInfo);
-            //    //use collideInfo.separationX
-            //    //    collideInfo.separationY
-            //    //    collideInfo.normalAxisX
-            //    //    collideInfo.normalAxisY
-            //    //    collideInfo.overlap
-            //}
-            //return shape.Intersects(rectangle);
+            // return shape.Intersects(rectangle);
             return level.Intersects(rectangle);
         }
 
