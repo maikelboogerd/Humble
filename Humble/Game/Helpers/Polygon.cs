@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,6 +84,24 @@ namespace Humble
             }
 
             return result;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Polygon polygon)
+        {
+            GraphicsDevice GraphicsDevice = GameService.GetService<GraphicsDevice>();
+
+            Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new[] { Color.Blue });
+            spriteBatch.Draw(texture, polygon, Color.White * 0.5f);
+
+            Texture2D pointTexture = new Texture2D(GraphicsDevice, 1, 1);
+            pointTexture.SetData(new[] { Color.Yellow });
+            //spriteBatch.Draw(pointTexture, new Rectangle((int)innerPoints[0].X, (int)innerPoints[0].Y, 1, 1), Color.White);
+            //spriteBatch.Draw(pointTexture, new Rectangle((int)innerPoints[1].X, (int)innerPoints[1].Y, 1, 1), Color.White);
+            //spriteBatch.Draw(pointTexture, new Rectangle((int)innerPoints[2].X, (int)innerPoints[2].Y, 1, 1), Color.White);
+            //spriteBatch.Draw(pointTexture, new Rectangle((int)innerPoints[3].X, (int)innerPoints[3].Y, 1, 1), Color.White);
+            spriteBatch.Draw(pointTexture, new Rectangle(0, 0, 1, 1), Color.White);
+            spriteBatch.Draw(pointTexture, new Rectangle(90, 90, 1, 1), Color.White);
         }
     }
 }

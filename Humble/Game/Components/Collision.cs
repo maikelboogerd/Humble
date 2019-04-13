@@ -16,6 +16,28 @@ namespace Humble
             public Vector MinimumTranslationVector; // The translation to apply to polygon A to push the polygons appart.
         }
 
+        public bool Contains(Polygon polygonA, Polygon polygonB, Vector velocity)
+        {
+            Vector polygonATranslation = new Vector();
+
+            PolygonCollisionResult r = PolygonCollision(polygonA, polygonB, velocity);
+
+            if (r.WillIntersect)
+            {
+                // Move the polygon by its velocity, then move
+                // the polygons appart using the Minimum Translation Vector
+                polygonATranslation = velocity + r.MinimumTranslationVector;
+            }
+            else
+            {
+                // Just move the polygon by its velocity
+                polygonATranslation = velocity;
+            }
+            polygonA.Offset(polygonATranslation);
+
+            return r.Intersect;
+        }
+
         // Check if polygon A is going to collide with polygon B for the given velocity
         public PolygonCollisionResult PolygonCollision(Polygon polygonA, Polygon polygonB, Vector velocity)
         {

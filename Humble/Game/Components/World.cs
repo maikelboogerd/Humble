@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Drawing;
 
 namespace Humble
 {
@@ -14,6 +15,8 @@ namespace Humble
         private SpriteBatch spriteBatch;
         public Level level;
         public Shape shape;
+        public List<Polygon> polygons = new List<Polygon>();
+        public Polygon player_collision;
 
         public World(Game game) : base(game)
         {
@@ -30,8 +33,8 @@ namespace Humble
             shape = new Shape();
             level.Generate();
 
-            Polygon player_collision;
-            List<Polygon> polygons = new List<Polygon>();
+
+
             Polygon p = new Polygon();
             p.Points.Add(new Vector(100, 0));
             p.Points.Add(new Vector(150, 50));
@@ -78,6 +81,7 @@ namespace Humble
 
         public override void Update(GameTime gameTime)
         {
+            //Vector playerTranslation = velocity;
         }
 
         /// Draw
@@ -88,6 +92,14 @@ namespace Humble
             Camera camera = GameService.GetService<Camera>();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
 
+            Vector p1;
+            Vector p2;
+            foreach (Polygon polygon in polygons)
+            {
+                polygon.Draw(spriteBatch);
+            }
+
+
             level.Draw(spriteBatch);
             //shape.Draw(spriteBatch);
 
@@ -97,8 +109,9 @@ namespace Humble
         /// Custom
         ///
 
-        public Boolean Intersects(Rectangle rectangle)
+        public Boolean Intersects(Polygon polygonA, Polygon polygonB, Vector velocity = new Vector())
         {
+
             //return shape.Intersects(rectangle);
             return level.Intersects(rectangle);
         }
