@@ -12,7 +12,6 @@ namespace Humble
     public class World : DrawableGameComponent
     {
         private SpriteBatch spriteBatch;
-
         public Level level;
         public Shape shape;
 
@@ -22,7 +21,7 @@ namespace Humble
         }
 
         /// Initialize
-        /// 
+        ///
 
         public override void Initialize()
         {
@@ -30,11 +29,44 @@ namespace Humble
             level = new Level();
             shape = new Shape();
             level.Generate();
+
+            Polygon player_collision;
+            List<Polygon> polygons = new List<Polygon>();
+            Polygon p = new Polygon();
+            p.Points.Add(new Vector(100, 0));
+            p.Points.Add(new Vector(150, 50));
+            p.Points.Add(new Vector(100, 150));
+            p.Points.Add(new Vector(0, 100));
+
+            polygons.Add(p);
+
+            p = new Polygon();
+            p.Points.Add(new Vector(50, 50));
+            p.Points.Add(new Vector(100, 0));
+            p.Points.Add(new Vector(150, 150));
+            p.Offset(80, 80);
+
+            polygons.Add(p);
+
+            p = new Polygon();
+            p.Points.Add(new Vector(0, 50));
+            p.Points.Add(new Vector(50, 0));
+            p.Points.Add(new Vector(150, 80));
+            p.Points.Add(new Vector(160, 200));
+            p.Points.Add(new Vector(-10, 190));
+            p.Offset(300, 300);
+
+            polygons.Add(p);
+
+            foreach (Polygon polygon in polygons) polygon.BuildEdges();
+
+            player_collision = polygons[0];
+
             base.Initialize();
         }
 
         /// Load
-        /// 
+        ///
 
         protected override void LoadContent()
         {
@@ -42,14 +74,14 @@ namespace Humble
         }
 
         /// Update
-        /// 
+        ///
 
         public override void Update(GameTime gameTime)
         {
         }
 
         /// Draw
-        /// 
+        ///
 
         public override void Draw(GameTime gameTime)
         {
@@ -63,7 +95,7 @@ namespace Humble
         }
 
         /// Custom
-        /// 
+        ///
 
         public Boolean Intersects(Rectangle rectangle)
         {

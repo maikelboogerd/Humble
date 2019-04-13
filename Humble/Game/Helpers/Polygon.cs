@@ -9,64 +9,80 @@ namespace Humble
 {
     public class Polygon
     {
-        public List<PolygonLine> Lines;
+        private List<Vector> points = new List<Vector>();
+        private List<Vector> edges = new List<Vector>();
 
-        public Polygon() {
-            Lines = new List<PolygonLine>();
-        }
-
-        public static Polygon AxisToPolygon(List<Vector2> axis)
+        public void BuildEdges()
         {
-            Polygon polygon = new Polygon();
-            for (int i = 0; i < axis.Count; ++i)
+            Vector p1;
+            Vector p2;
+            edges.Clear();
+            for (int i = 0; i < points.Count; i++)
             {
-                Vector2 pointA = axis[i];
-                Vector2 pointB;
-
-                if (i != axis.Count - 1)
-                    pointB = axis[i + 1];
-                else
-                    pointB = axis[0];
-
-                PolygonLine polygonLine = new PolygonLine(pointA, pointB);
-                polygon.Lines.Add(polygonLine);
-            }
-            return polygon;
-        }
-
-        public bool Contains(Vector2 point)
-        {
-            // Check if the point lies within this Polygon.
-            bool inside = false;
-            foreach (var side in Lines)
-            {
-                if (point.Y > Math.Min(side.Start.Y, side.End.Y))
+                p1 = points[i];
+                if (i + 1 >= points.Count)
                 {
-                    if (point.Y <= Math.Max(side.Start.Y, side.End.Y))
-                    {
-                        if (point.X <= Math.Max(side.Start.X, side.End.X))
-                        {
-                            float xIntersection = side.Start.X + ((point.Y - side.Start.Y) / (side.End.Y - side.Start.Y)) * (side.End.X - side.Start.X);
-                            if (point.X <= xIntersection)
-                            {
-                                inside = !inside;
-                            }
-                        }
-                    }
+                    p2 = points[0];
                 }
+                else
+                {
+                    p2 = points[i + 1];
+                }
+                edges.Add(p2 - p1);
             }
-            return inside;
         }
-    }
 
-    public class PolygonLine
-    {
-        public Vector2 Start;
-        public Vector2 End;
+        public List<Vector> Edges
+        {
+            get { return edges; }
+        }
 
-        public PolygonLine(Vector2 start, Vector2 end) {
-            Start = start;
-            End = end;
+        public List<Vector> Points
+        {
+            get { return points; }
+        }
+
+        public Vector Center
+        {
+            get
+            {
+                float totalX = 0;
+                float totalY = 0;
+                for (int i = 0; i < points.Count; i++)
+                {
+                    totalX += points[i].X;
+                    totalY += points[i].Y;
+                }
+
+                return new Vector(totalX / (float)points.Count, totalY / (float)points.Count);
+            }
+        }
+
+        public void Offset(Vector v)
+        {
+            Offset(v.X, v.Y);
+        }
+
+        public void Offset(float x, float y)
+        {
+            for (int i = 0; i < points.Count; i++)
+            {
+                Vector p = points[i];
+                points[i] = new Vector(p.X + x, p.Y + y);
+            }
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (result != "") result += " ";
+                result += "{" + points[i] + "}";
+            }
+
+            return result;
         }
     }
 }

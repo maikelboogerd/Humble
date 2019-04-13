@@ -57,14 +57,16 @@ namespace Humble
         {
             // Construct a Polygon representation for this block's surface.
             List<Vector2> surfaceAxis = getSurfaceAxis();
-            return Polygon.AxisToPolygon(surfaceAxis);
+            return new Polygon();
+            //return Polygon.AxisToPolygon(surfaceAxis);
         }
 
         public bool Intersects(Vector2 point)
         {
             // Check if a point lies within the surface area of this block.
             Polygon polygon = getPolygon();
-            return polygon.Contains(point);
+            return true;
+            //return polygon.Contains(point);
         }
 
         public void Draw(SpriteBatch spriteBatch)
