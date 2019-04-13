@@ -65,6 +65,8 @@ namespace Humble
             GameService.AddService<Player>(player);
             GameService.AddService<Camera>(camera);
 
+            Cursor.Reset();
+
             base.Initialize();
         }
 

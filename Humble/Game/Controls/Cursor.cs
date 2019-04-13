@@ -22,6 +22,12 @@ namespace Humble
 
         }
 
+        public static void Reset()
+        {
+            Player player = GameService.GetService<Player>();
+            Mouse.SetPosition(player.X, player.Y);
+        }
+
         public static Rectangle Bounds
         {
             get
