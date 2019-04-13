@@ -33,7 +33,9 @@ namespace Humble
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            //graphics.ToggleFullScreen();
             Content.RootDirectory = "Content";
+            Mouse.WindowHandle = Window.Handle;
         }
 
         /// <summary>
@@ -94,11 +96,19 @@ namespace Humble
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (true)
+            if (false)
             {
                 Vector2 spawnPoint = playerController.Get().Center();
                 Vector2 targetPoint = Cursor.Position;
-                //Vector2 targetPoint = new Vector2(random.Next(0, 800), random.Next(0, 800));
+                Projectile projectile = new Projectile(this);
+                projectileController.Add(projectile);
+                projectile.Spawn(spawnPoint);
+                projectile.Shoot(targetPoint);
+            }
+            else if (Keyboard.GetState().IsKeyDown(input.Shoot))
+            {
+                Vector2 spawnPoint = playerController.Get().Center();
+                Vector2 targetPoint = Cursor.Position;
                 Projectile projectile = new Projectile(this);
                 projectileController.Add(projectile);
                 projectile.Spawn(spawnPoint);

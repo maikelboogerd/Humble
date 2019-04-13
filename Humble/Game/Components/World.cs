@@ -12,6 +12,7 @@ namespace Humble
     public class World : DrawableGameComponent
     {
         private SpriteBatch spriteBatch;
+        private Texture2D cursorTexture;
 
         public Level level;
         public Shape shape;
@@ -39,6 +40,8 @@ namespace Humble
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            cursorTexture = new Texture2D(GraphicsDevice, 1, 1);
+            cursorTexture.SetData(new[] { Color.Yellow });
         }
 
         /// Update
@@ -58,6 +61,11 @@ namespace Humble
 
             level.Draw(spriteBatch);
             //shape.Draw(spriteBatch);
+
+            if (true)
+            {
+                spriteBatch.Draw(cursorTexture, Cursor.Bounds, Color.White);
+            }
 
             spriteBatch.End();
         }

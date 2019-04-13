@@ -36,8 +36,6 @@ namespace Humble
 
         public override void Initialize()
         {
-            startPosition = new Vector2(10, 10);
-            targetPosition = new Vector2(60, 60);
             base.Initialize();
         }
 
@@ -67,8 +65,6 @@ namespace Humble
                         if (travelDistance < travelLimit)
                         {
                             currentPosition += direction * velocity;
-                            //currentPosition.X += velocity;
-                            //currentPosition.Y += velocity;
                             travelDistance += velocity;
                         }
                         else
