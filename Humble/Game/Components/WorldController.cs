@@ -9,33 +9,50 @@ namespace Humble
 {
     public class WorldController : GameComponent
     {
-        Game game;
-        World world;
+        private Game game;
+        private World world;
 
         public WorldController(Game game) : base(game)
         {
             this.game = game;
         }
 
+        /// Initialize
+        /// 
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        /// Update
+        /// 
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
         }
 
-        public World CreateWorld()
+        /// Custom
+        /// 
+
+        public World Create()
         {
+            Console.WriteLine("WorldController.Create");
             Game.Components.Add(world = new World(game));
             return world;
         }
 
-        public World GetWorld()
+        public World Get()
         {
             return world;
         }
 
-        public void RemoveWorld(World world)
+        public void Remove(World world)
         {
             Game.Components.Remove(world);
+            world = null;
         }
+
     }
 }

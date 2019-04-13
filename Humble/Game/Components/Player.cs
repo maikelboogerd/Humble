@@ -17,7 +17,7 @@ namespace Humble
 
         private int boundsSize = 20;
         private int playerSize = 40;
-        private float movementSpeed = 2;
+        private float movementSpeed = 4;
         private float speedModifier = 1;
 
         public Vector2 position;
@@ -47,6 +47,7 @@ namespace Humble
 
         public Player(Game game, Input input) : base(game)
         {
+            DrawOrder = 1;
             this.game = game;
             this.input = input;
         }
@@ -131,7 +132,7 @@ namespace Humble
             standUp = new Animation();
             standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
 
-            changePosition(game.worldController.GetWorld().spawnPoint);
+            changePosition(game.worldController.Get().spawnPoint);
             currentAnimation = standDown;
 
             base.Initialize();
@@ -139,7 +140,7 @@ namespace Humble
 
         public Vector2 Center()
         {
-            return new Vector2(positionBounds.X / 2, positionBounds.Y / 2);
+            return new Vector2(X, Y);
         }
 
         public int X
@@ -269,7 +270,7 @@ namespace Humble
 
             Rectangle targetBounds = new Rectangle((int)targetPosition.X, (int)targetPosition.Y, 1, 1);
 
-            if (game.worldController.GetWorld().Intersects(targetBounds))
+            if (game.worldController.Get().Intersects(targetBounds))
                 changePosition(targetPosition);
 
         }

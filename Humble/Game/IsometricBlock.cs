@@ -69,7 +69,7 @@ namespace Humble
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, textureRectangle, Color.White * 0.5f);
+            spriteBatch.Draw(texture, textureRectangle, Color.White);
         }
 
     }

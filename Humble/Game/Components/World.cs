@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Humble
 {
     public class World : DrawableGameComponent
     {
         private SpriteBatch spriteBatch;
-        public Level level;
 
+        public Level level;
         public Shape shape;
 
         public World(Game game) : base(game)
         {
-            shape = new Shape();
+            DrawOrder = 0;
         }
 
         /// Initialize
@@ -25,34 +26,27 @@ namespace Humble
 
         public override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Console.WriteLine("@World.Initialize");
             level = new Level();
+            shape = new Shape();
             level.Generate();
             base.Initialize();
         }
 
-        public Vector2 spawnPoint
-        {
-            get
-            {
-                //return shape.Center();
-                return level.getSpawnPoint();
-            }
-        }
-
-        /// Collision
+        /// Load
         /// 
 
-        public Boolean Intersects(Rectangle rectangle)
+        protected override void LoadContent()
         {
-            //return shape.Intersects(rectangle);
-            return level.Intersects(rectangle);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// Update
         /// 
 
-        public override void Update(GameTime gameTime) {}
+        public override void Update(GameTime gameTime)
+        {
+        }
 
         /// Draw
         /// 
@@ -61,9 +55,30 @@ namespace Humble
         {
             Camera camera = GameService.GetService<Camera>();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
+
             level.Draw(spriteBatch);
             //shape.Draw(spriteBatch);
+
             spriteBatch.End();
+        }
+
+        /// Custom
+        /// 
+
+        public Boolean Intersects(Rectangle rectangle)
+        {
+            //return shape.Intersects(rectangle);
+            return level.Intersects(rectangle);
+        }
+
+        public Vector2 spawnPoint
+        {
+            get
+            {
+                Console.WriteLine("@World.spawnPoint");
+                //return shape.Center();
+                return level.getSpawnPoint();
+            }
         }
     }
 }
