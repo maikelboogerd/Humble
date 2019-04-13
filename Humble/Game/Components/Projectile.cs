@@ -4,31 +4,32 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Humble
 {
-    public class Projectile : DrawableGameComponent
+    public class Projectile : DrawableGameComponent, ICollidable, IMovable, ISpawnable
     {
+        private Texture2D boundsTexture;
+        private Texture2D projectileTexture;
+
         public enum State
         {
-            SPAWNED,
+            IDLE,
             CHARGING,
             TRAVELING,
             EXPIRED,
         }
 
         public State currentState;
+        public object source;
 
-        private Vector2 startPosition;
-        private Vector2 currentPosition;
         private Vector2 targetPosition;
         private Vector2 direction;
 
-        private int velocity = 15;
+        private int travelSpeed = 15;
         private int travelLimit = 1500;
         private int travelDistance;
 
-        private Texture2D texture;
-
-        public Projectile(Game game) : base(game)
+        public Projectile(Game game, object source) : base(game)
         {
+            this.source = source;
         }
 
         /// Initialize
@@ -44,8 +45,8 @@ namespace Humble
 
         protected override void LoadContent()
         {
-            texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData(new[] { Color.Red });
+            boundsTexture = new Texture2D(GraphicsDevice, 1, 1);
+            boundsTexture.SetData(new[] { Color.Orange });
         }
 
         /// Update
@@ -57,15 +58,15 @@ namespace Humble
             {
                 case State.CHARGING:
                     {
-                        velocity += 1;
+                        travelSpeed += 1;
                         break;
                     }
                 case State.TRAVELING:
                     {
                         if (travelDistance < travelLimit)
                         {
-                            currentPosition += direction * velocity;
-                            travelDistance += velocity;
+                            ChangePosition(Position + direction * travelSpeed);
+                            travelDistance += travelSpeed;
                         }
                         else
                         {
@@ -81,31 +82,71 @@ namespace Humble
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Bounds, Color.White * 0.5f);
+            spriteBatch.Draw(boundsTexture, Bounds, Color.White * 0.5f);
+        }
+
+        /// Collision
+        /// 
+
+        public int Width = 5;
+        public int Height = 5;
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+            }
+        }
+
+        public bool Intersects(Rectangle rectangle)
+        {
+            return rectangle.Intersects(Bounds);
+        }
+
+        public bool Contains(Vector2 point)
+        {
+            return Bounds.Contains(point.X, point.Y);
+        }
+
+        /// Movement
+        /// 
+
+        public Vector2 Position { get; set; }
+
+        public void ChangePosition(Vector2 location)
+        {
+            Position = location;
+        }
+
+        /// Spawning
+        /// 
+
+        public Vector2 SpawnPoint { get; set; }
+
+        public void Spawn(Vector2 spawnPoint)
+        {
+            SpawnPoint = spawnPoint;
+            ChangePosition(spawnPoint);
+            currentState = State.IDLE;
+        }
+
+        public void Respawn()
+        {
         }
 
         /// Custom
         /// 
 
-        public void Spawn(Vector2 spawnPoint)
-        {
-            startPosition = spawnPoint;
-            currentPosition = startPosition;
-            currentState = State.SPAWNED;
-        }
-
         public void Charge()
         {
-            if (currentState == State.SPAWNED)
-            {
-                currentState = State.CHARGING;
-            }
+            currentState = State.CHARGING;
         }
 
         public void Shoot(Vector2 targetPoint)
         {
             targetPosition = targetPoint;
-            direction = Vector2.Normalize(targetPosition - startPosition);
+            direction = Vector2.Normalize(targetPosition - SpawnPoint);
             currentState = State.TRAVELING;
         }
 
@@ -119,12 +160,5 @@ namespace Humble
             return currentState == State.EXPIRED;
         }
 
-        public Rectangle Bounds
-        {
-            get
-            {
-                return new Rectangle((int)currentPosition.X - 10, (int)currentPosition.Y - 10, 20, 20);
-            }
-        }
     }
 }

@@ -10,11 +10,11 @@ namespace Humble
 {
     public class Camera
     {
-        private Player Player;
+        private Player player;
 
         public Camera(Player player)
         {
-            Player = player;
+            this.player = player;
         }
 
         public Vector3 Position
@@ -22,10 +22,7 @@ namespace Humble
             get
             {
                 GraphicsDevice GraphicsDevice = GameService.GetService<GraphicsDevice>();
-                // Return the Vector3 camera position without a Z axis.
-                return new Vector3((Player.X - (GraphicsDevice.Viewport.Width / 2)) * -1,
-                                   (Player.Y - (GraphicsDevice.Viewport.Height / 2)) * -1,
-                                   0f);
+                return new Vector3((player.Position.X - (GraphicsDevice.Viewport.Width / 2)) * -1, (player.Position.Y - (GraphicsDevice.Viewport.Height / 2)) * -1, 0f);
             }
         }
     }

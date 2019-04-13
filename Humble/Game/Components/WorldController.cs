@@ -22,6 +22,7 @@ namespace Humble
 
         public override void Initialize()
         {
+            Console.WriteLine("@WorldController.Initialize");
             base.Initialize();
         }
 
@@ -38,7 +39,7 @@ namespace Humble
 
         public World Create()
         {
-            Console.WriteLine("WorldController.Create");
+            Console.WriteLine(">> WorldController.Create");
             Game.Components.Add(world = new World(game));
             return world;
         }

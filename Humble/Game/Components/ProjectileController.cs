@@ -12,6 +12,7 @@ namespace Humble
 
         public ProjectileController(Game game) : base(game)
         {
+            projectiles = new List<Projectile>();
             DrawOrder = 2;
         }
 
@@ -20,7 +21,7 @@ namespace Humble
 
         public override void Initialize()
         {
-            projectiles = new List<Projectile>();
+            Console.WriteLine("@ProjectileController.Initialize");
             base.Initialize();
         }
 
@@ -29,6 +30,7 @@ namespace Humble
 
         protected override void LoadContent()
         {
+            Console.WriteLine("@ProjectileController.LoadContent");
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
@@ -80,6 +82,11 @@ namespace Humble
         {
             Game.Components.Add(projectile);
             projectiles.Add(projectile);
+        }
+
+        public List<Projectile> List()
+        {
+            return projectiles;
         }
     }
 }

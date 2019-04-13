@@ -9,7 +9,136 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Humble
 {
-    public class Player : DrawableGameComponent
+    public class Player : DrawableGameComponent, ICollidable, IMovable, ISpawnable, IKillable
+    {
+        private SpriteBatch spriteBatch;
+        private Texture2D boundsTexture;
+        private Texture2D playerTexture;
+
+        public enum State
+        {
+            IDLE,
+            ATTACKING,
+            TRAVELING,
+            DEATH,
+        }
+
+        public State currentState;
+
+        public Input input;
+        public int MovementSpeed = 10;
+
+        public Player(Game game, Input input) : base(game)
+        {
+            this.input = input;
+            DrawOrder = 1;
+        }
+
+        /// Initialize
+        /// 
+
+        public override void Initialize()
+        {
+            Console.WriteLine("@Player.Initialize");
+            base.Initialize();
+        }
+
+        /// Load
+        /// 
+
+        protected override void LoadContent()
+        {
+            Console.WriteLine("@Player.LoadContent");
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            boundsTexture = new Texture2D(GraphicsDevice, 1, 1);
+            boundsTexture.SetData(new[] { Color.Green });
+        }
+
+        /// Update
+        /// 
+
+        public override void Update(GameTime gameTime)
+        {
+        }
+
+        /// Draw
+        /// 
+
+        public override void Draw(GameTime gameTime)
+        {
+            Camera camera = GameService.GetService<Camera>();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(camera.Position));
+            spriteBatch.Draw(boundsTexture, Bounds, Color.White * 1.0f);
+            spriteBatch.End();
+        }
+
+        /// Collision
+        /// 
+
+        public int Width = 10;
+        public int Height = 10;
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+            }
+        }
+
+        public bool Intersects(Rectangle rectangle)
+        {
+            return rectangle.Intersects(Bounds);
+        }
+
+        public bool Contains(Vector2 point)
+        {
+            return Bounds.Contains(point.X, point.Y);
+        }
+
+        /// Movement
+        /// 
+
+        public Vector2 Position { get; set; }
+
+        public void ChangePosition(Vector2 location)
+        {
+            Position = location;
+        }
+
+        /// Spawning
+        /// 
+
+        public Vector2 SpawnPoint { get; set; }
+
+        public void Spawn(Vector2 spawnPoint)
+        {
+            SpawnPoint = SpawnPoint;
+            ChangePosition(spawnPoint);
+            currentState = State.IDLE;
+        }
+
+        public void Respawn()
+        {
+            Spawn(SpawnPoint);
+        }
+
+        /// Damage
+        /// 
+
+        public void Kill()
+        {
+            currentState = State.DEATH;
+        }
+
+        public bool IsDeath()
+        {
+            return currentState == State.DEATH;
+        }
+
+    }
+
+    public class OldPlayer : DrawableGameComponent
     {
         private Game game;
         private Input input;
@@ -45,8 +174,10 @@ namespace Humble
         public int frameWidth = 64;
         public int frameHeight = 64;
 
-        public Player(Game game, Input input) : base(game)
+        public OldPlayer(Game game, Input input) : base(game)
         {
+            Console.WriteLine("@Player.Constructor");
+            Console.WriteLine(input);
             DrawOrder = 1;
             this.game = game;
             this.input = input;
@@ -57,6 +188,7 @@ namespace Humble
 
         public override void Initialize()
         {
+            Console.WriteLine("@Player.Initialize");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             position = new Vector2(100, 100);
 
@@ -132,10 +264,14 @@ namespace Humble
             standUp = new Animation();
             standUp.AddFrame(new Rectangle(0, 0, 64, 64), TimeSpan.FromSeconds(.25));
 
-            changePosition(game.worldController.Get().spawnPoint);
             currentAnimation = standDown;
 
             base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            Console.WriteLine("@Player.LoadContent");
         }
 
         public Vector2 Center()
@@ -164,7 +300,6 @@ namespace Humble
 
         public override void Update(GameTime gameTime)
         {
-            handleInput();
             if (state != null)
             {
                 if (state == "walkRight")
@@ -270,8 +405,7 @@ namespace Humble
 
             Rectangle targetBounds = new Rectangle((int)targetPosition.X, (int)targetPosition.Y, 1, 1);
 
-            if (game.worldController.Get().Intersects(targetBounds))
-                changePosition(targetPosition);
+            changePosition(targetPosition);
 
         }
     }
