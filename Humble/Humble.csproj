@@ -67,6 +67,18 @@
     <Compile Include="Game\Components\Projectile.cs" />
     <Compile Include="Game\Controls\Input.cs" />
     <Compile Include="Game\Controls\Cursor.cs" />
+    <Compile Include="differ-cs\Collision.cs" />
+    <Compile Include="differ-cs\Data\RayCollision.cs" />
+    <Compile Include="differ-cs\Data\RayIntersection.cs" />
+    <Compile Include="differ-cs\Data\ShapeCollision.cs" />
+    <Compile Include="differ-cs\Math\Matrix.cs" />
+    <Compile Include="differ-cs\Math\Util.cs" />
+    <Compile Include="differ-cs\Math\Vector.cs" />
+    <Compile Include="differ-cs\Sat\Sat2D.cs" />
+    <Compile Include="differ-cs\Shapes\Circle.cs" />
+    <Compile Include="differ-cs\Shapes\Polygon.cs" />
+    <Compile Include="differ-cs\Shapes\Ray.cs" />
+    <Compile Include="differ-cs\Shapes\Shape.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -126,6 +138,27 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="differ-cs\.DS_Store" />
+    <None Include="differ-cs\Collision.cs.meta" />
+    <None Include="differ-cs\Data.meta" />
+    <None Include="differ-cs\Editor.meta" />
+    <None Include="differ-cs\Math.meta" />
+    <None Include="differ-cs\README.md" />
+    <None Include="differ-cs\README.md.meta" />
+    <None Include="differ-cs\Sat.meta" />
+    <None Include="differ-cs\Shapes.meta" />
+    <None Include="differ-cs\Test.meta" />
+    <None Include="differ-cs\Data\RayCollision.cs.meta" />
+    <None Include="differ-cs\Data\RayIntersection.cs.meta" />
+    <None Include="differ-cs\Data\ShapeCollision.cs.meta" />
+    <None Include="differ-cs\Math\Matrix.cs.meta" />
+    <None Include="differ-cs\Math\Util.cs.meta" />
+    <None Include="differ-cs\Math\Vector.cs.meta" />
+    <None Include="differ-cs\Sat\Sat2D.cs.meta" />
+    <None Include="differ-cs\Shapes\Circle.cs.meta" />
+    <None Include="differ-cs\Shapes\Polygon.cs.meta" />
+    <None Include="differ-cs\Shapes\Ray.cs.meta" />
+    <None Include="differ-cs\Shapes\Shape.cs.meta" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

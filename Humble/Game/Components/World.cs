@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Differ;
 
 namespace Humble
 {
@@ -16,6 +17,9 @@ namespace Humble
 
         public Level level;
         public Shape shape;
+        public Differ.Shapes.Circle circle;
+        public Differ.Shapes.Polygon box1;
+        public Differ.Shapes.Polygon box2;
 
         public World(Game game) : base(game)
         {
@@ -23,19 +27,23 @@ namespace Humble
         }
 
         /// Initialize
-        /// 
+        ///
 
         public override void Initialize()
         {
             Console.WriteLine("@World.Initialize");
             level = new Level();
             shape = new Shape();
+
+            box1 = Differ.Shapes.Polygon.rectangle(0, 0, 100, 300);
+            box2 = Differ.Shapes.Polygon.rectangle(0, 0, 50, 150);
+
             level.Generate();
             base.Initialize();
         }
 
         /// Load
-        /// 
+        ///
 
         protected override void LoadContent()
         {
@@ -45,14 +53,14 @@ namespace Humble
         }
 
         /// Update
-        /// 
+        ///
 
         public override void Update(GameTime gameTime)
         {
         }
 
         /// Draw
-        /// 
+        ///
 
         public override void Draw(GameTime gameTime)
         {
@@ -61,6 +69,13 @@ namespace Humble
 
             level.Draw(spriteBatch);
             //shape.Draw(spriteBatch);
+            // circle.Draw(spriteBatch);
+            //var box = Differ.Shapes.Polygon.rectangle(0, 0, 50, 150);
+
+            if (true){
+                box1.Draw(spriteBatch);
+                box2.Draw(spriteBatch);
+            }
 
             if (true)
             {
@@ -71,10 +86,26 @@ namespace Humble
         }
 
         /// Custom
-        /// 
+        ///
 
         public Boolean Intersects(Rectangle rectangle)
         {
+
+
+            //box.rotation = 45;
+
+            //var collideInfo = Collision.shapeWithShape(circle, box);
+
+            //if (collideInfo != null)
+            //{
+            //    Console.WriteLine("-----------------");
+            //    Console.WriteLine(collideInfo);
+            //    //use collideInfo.separationX
+            //    //    collideInfo.separationY
+            //    //    collideInfo.normalAxisX
+            //    //    collideInfo.normalAxisY
+            //    //    collideInfo.overlap
+            //}
             //return shape.Intersects(rectangle);
             return level.Intersects(rectangle);
         }

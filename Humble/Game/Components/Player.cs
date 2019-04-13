@@ -22,7 +22,7 @@ namespace Humble
 
         public Vector2 position;
         public Rectangle positionBounds;
-        public Rectangle playerBounds;
+        public Differ.Shapes.Polygon playerBounds;
 
         private Texture2D positionTexture;
         private Texture2D playerTexture;
@@ -53,7 +53,7 @@ namespace Humble
         }
 
         /// Initialize
-        /// 
+        ///
 
         public override void Initialize()
         {
@@ -65,10 +65,10 @@ namespace Humble
                                            boundsSize,
                                            boundsSize);
 
-            playerBounds = new Rectangle((int)position.X - playerSize / 2,
-                                         (int)position.Y - playerSize * 2,
-                                         playerSize,
-                                         playerSize * 2);
+            playerBounds = Differ.Shapes.Polygon.rectangle((int)position.X - playerSize / 2,
+                                                            (int)position.Y - playerSize * 2,
+                                                            playerSize,
+                                                            playerSize * 2);
 
             positionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             positionTexture.SetData(new[] { Color.Red });
@@ -160,7 +160,7 @@ namespace Humble
         }
 
         /// Update
-        /// 
+        ///
 
         public override void Update(GameTime gameTime)
         {
@@ -197,7 +197,7 @@ namespace Humble
         }
 
         /// Draw
-        /// 
+        ///
 
         public override void Draw(GameTime gameTime)
         {
@@ -210,14 +210,21 @@ namespace Humble
             var sourceRectangle = currentAnimation.CurrentRectangle;
             spriteBatch.Draw(playerTexture, topLeftOfSprite, sourceRectangle, Color.White);
 
-            // DEBUG 
+            // DEBUG
             //spriteBatch.Draw(positionTexture, positionBounds, Color.White);
+
+            // Color position bounds
+            foreach (Differ.Math.Vector vertice in playerBounds.vertices)
+            {
+                //DrawLine(spriteBatch, vertice.x, vertice.y);
+                spriteBatch.Draw(positionTexture, new Rectangle((int)vertice.x + (int)this.position.X, (int)vertice.y + (int)this.position.Y, 2, 2), Color.White * 0.5f);
+            }
 
             spriteBatch.End();
         }
 
         /// Movement
-        /// 
+        ///
 
         public void changePosition(Vector2 position)
         {
@@ -228,10 +235,10 @@ namespace Humble
             positionBounds.X = (int)position.X - boundsSize / 2;
             positionBounds.Y = (int)position.Y - boundsSize / 2;
             // Update player bounds.
-            playerBounds.X = (int)position.X - playerSize / 2;
-            playerBounds.Y = (int)position.Y - playerSize * 2;
+            playerBounds.x = (int)position.X - playerSize / 2;
+            playerBounds.y = (int)position.Y - playerSize * 2;
         }
-        
+
         public void handleInput()
         {
             Vector2 targetPosition = position;
