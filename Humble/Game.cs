@@ -97,7 +97,8 @@ namespace Humble
             if (true)
             {
                 Vector2 spawnPoint = playerController.Get().Center();
-                Vector2 targetPoint = new Vector2(random.Next(0, 800), random.Next(0, 800));
+                Vector2 targetPoint = Cursor.Position;
+                //Vector2 targetPoint = new Vector2(random.Next(0, 800), random.Next(0, 800));
                 Projectile projectile = new Projectile(this);
                 projectileController.Add(projectile);
                 projectile.Spawn(spawnPoint);

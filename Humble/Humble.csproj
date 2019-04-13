@@ -54,7 +54,6 @@
     <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Helpers\ClassMapping.cs" />
     <Compile Include="Game\Helpers\Shape.cs" />
-    <Compile Include="Game\Input.cs" />
     <Compile Include="Game\IsometricBlock.cs" />
     <Compile Include="Game\Level.cs" />
     <Compile Include="Game\Helpers\Polygon.cs" />
@@ -64,10 +63,10 @@
     <Compile Include="Game\Components\PlayerController.cs" />
     <Compile Include="Game\Components\WorldController.cs" />
     <Compile Include="Game\Components\Player.cs" />
-    <Compile Include="Game\Interfaces\Projectile.cs" />
-    <Compile Include="Game\Interfaces\World.cs" />
     <Compile Include="Game\Components\World.cs" />
     <Compile Include="Game\Components\Projectile.cs" />
+    <Compile Include="Game\Controls\Input.cs" />
+    <Compile Include="Game\Controls\Cursor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -131,7 +130,7 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Game\Components\" />
-    <Folder Include="Game\Interfaces\" />
+    <Folder Include="Game\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

@@ -127,7 +127,7 @@ namespace Humble
         {
             get
             {
-                return new Rectangle((int)currentPosition.X - 5, (int)currentPosition.Y - 5, 10, 10);
+                return new Rectangle((int)currentPosition.X - 10, (int)currentPosition.Y - 10, 20, 20);
             }
         }
     }
