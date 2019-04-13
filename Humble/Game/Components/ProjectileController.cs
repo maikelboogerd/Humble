@@ -14,7 +14,6 @@ namespace Humble
         public ProjectileController(Game game) : base(game)
         {
             DrawOrder = 2;
-            projectiles = new List<Projectile>();
         }
 
         /// Initialize
@@ -22,8 +21,16 @@ namespace Humble
 
         public override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            projectiles = new List<Projectile>();
             base.Initialize();
+        }
+
+        /// Load
+        /// 
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// Update

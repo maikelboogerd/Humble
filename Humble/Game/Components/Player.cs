@@ -140,7 +140,7 @@ namespace Humble
 
         public Vector2 Center()
         {
-            return new Vector2(positionBounds.X / 2, positionBounds.Y / 2);
+            return new Vector2(X, Y);
         }
 
         public int X

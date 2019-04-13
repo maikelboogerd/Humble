@@ -26,11 +26,19 @@ namespace Humble
 
         public override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Console.WriteLine("@World.Initialize");
             level = new Level();
             shape = new Shape();
             level.Generate();
             base.Initialize();
+        }
+
+        /// Load
+        /// 
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// Update
@@ -67,6 +75,7 @@ namespace Humble
         {
             get
             {
+                Console.WriteLine("@World.spawnPoint");
                 //return shape.Center();
                 return level.getSpawnPoint();
             }

@@ -16,11 +16,12 @@ namespace Humble
 
         public State currentState;
 
-        private Point startPosition;
-        private Point currentPosition;
-        private Point targetPosition;
+        private Vector2 startPosition;
+        private Vector2 currentPosition;
+        private Vector2 targetPosition;
+        private Vector2 direction;
 
-        private int velocity = 10;
+        private int velocity = 15;
         private int travelLimit = 1500;
         private int travelDistance;
 
@@ -35,11 +36,18 @@ namespace Humble
 
         public override void Initialize()
         {
+            startPosition = new Vector2(10, 10);
+            targetPosition = new Vector2(60, 60);
+            base.Initialize();
+        }
+
+        /// Load
+        /// 
+
+        protected override void LoadContent()
+        {
             texture = new Texture2D(GraphicsDevice, 1, 1);
             texture.SetData(new[] { Color.Red });
-            startPosition = new Point(10, 10);
-            targetPosition = new Point(60, 60);
-            base.Initialize();
         }
 
         /// Update
@@ -58,8 +66,9 @@ namespace Humble
                     {
                         if (travelDistance < travelLimit)
                         {
-                            currentPosition.X += velocity;
-                            currentPosition.Y += velocity;
+                            currentPosition += direction * velocity;
+                            //currentPosition.X += velocity;
+                            //currentPosition.Y += velocity;
                             travelDistance += velocity;
                         }
                         else
@@ -82,9 +91,10 @@ namespace Humble
         /// Custom
         /// 
 
-        public void Spawn(Point spawnPoint)
+        public void Spawn(Vector2 spawnPoint)
         {
             startPosition = spawnPoint;
+            currentPosition = startPosition;
             currentState = State.SPAWNED;
         }
 
@@ -96,9 +106,10 @@ namespace Humble
             }
         }
 
-        public void Shoot()
+        public void Shoot(Vector2 targetPoint)
         {
-            currentPosition = startPosition;
+            targetPosition = targetPoint;
+            direction = Vector2.Normalize(targetPosition - startPosition);
             currentState = State.TRAVELING;
         }
 
@@ -116,7 +127,7 @@ namespace Humble
         {
             get
             {
-                return new Rectangle(currentPosition.X - 5, currentPosition.Y - 5, 10, 10);
+                return new Rectangle((int)currentPosition.X - 5, (int)currentPosition.Y - 5, 10, 10);
             }
         }
     }
