@@ -18,5 +18,32 @@ namespace Humble
 
         public Keys Shoot { get; set; }
 
+        /// Default
+        /// 
+
+        public static Input Default()
+        {
+            return new Input()
+            {
+                Up = Keys.W,
+                Down = Keys.S,
+                Left = Keys.A,
+                Right = Keys.D,
+                Shoot = Keys.Space,
+            };
+        }
+
+        public static Input Alternative()
+        {
+            return new Input()
+            {
+                Up = Keys.Up,
+                Down = Keys.Down,
+                Left = Keys.Left,
+                Right = Keys.Right,
+                Shoot = Keys.RightControl,
+            };
+        }
+
     }
 }

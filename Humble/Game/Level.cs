@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,57 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    public class Level
+    public class Level : ICollidable
+    {
+        public Texture2D boundsTexture;
+
+        public Level()
+        {
+            GraphicsDevice GraphicsDevice = GameService.GetService<GraphicsDevice>();
+            boundsTexture = new Texture2D(GraphicsDevice, 1, 1);
+            boundsTexture.SetData(new[] { Color.White });
+        }
+
+        /// Draw
+        /// 
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(boundsTexture, Bounds, Color.White * 0.2f);
+        }
+
+        /// Collision
+        /// 
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(0, 0, 600, 600);
+            }
+        }
+
+        public bool Intersects(Rectangle rectangle)
+        {
+            return rectangle.Intersects(Bounds);
+        }
+
+        public bool Contains(Vector2 point)
+        {
+            return Bounds.Contains(point.X, point.Y);
+        }
+
+        /// Custom
+        /// 
+
+        public Vector2 getSpawnPoint()
+        {
+            return new Vector2(Bounds.Center.X, Bounds.Center.Y);
+        }
+
+    }
+
+    public class IsometricLevel
     {
         private Random random = new Random();
 
@@ -24,7 +75,7 @@ namespace Humble
             0, 0, 2, 2, 1, 1, 1,
         };
 
-        public Level()
+        public IsometricLevel()
         {
             blockMapping = new ClassMapping();
             blockMapping.Add(0, typeof(Blocks.Ice));

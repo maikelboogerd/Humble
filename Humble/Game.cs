@@ -12,23 +12,16 @@ namespace Humble
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
-        Random random = new Random();
+        private Random random = new Random();
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Input input = new Input()
-        {
-            Up = Keys.W,
-            Down = Keys.S,
-            Left = Keys.A,
-            Right = Keys.D,
-            Shoot = Keys.Space,
-        };
-
         public PlayerController playerController;
         public WorldController worldController;
         public ProjectileController projectileController;
+        public EnemyController enemyController;
+        public CollisionChecker collisionChecker;
 
         public Game()
         {
@@ -46,28 +39,55 @@ namespace Humble
         /// </summary>
         protected override void Initialize()
         {
-            Components.Add(playerController = new PlayerController(this));
-            Components.Add(worldController = new WorldController(this));
-            Components.Add(projectileController = new ProjectileController(this));
-
-            World world = worldController.Create();
-            Player player = playerController.Create(input);
-            Camera camera = new Camera(player);
+            Console.WriteLine("@Game.Initialize");
 
             GameService.AddService<GraphicsDevice>(GraphicsDevice);
             GameService.AddService<ContentManager>(Content);
 
-            GameService.AddService<PlayerController>(playerController);
-            GameService.AddService<WorldController>(worldController);
+            Components.Add(worldController = new WorldController(this));
+            Components.Add(playerController = new PlayerController(this));
+            Components.Add(enemyController = new EnemyController(this));
+            Components.Add(projectileController = new ProjectileController(this));
+
             GameService.AddService<ProjectileController>(projectileController);
 
-            GameService.AddService<World>(world);
-            GameService.AddService<Player>(player);
-            GameService.AddService<Camera>(camera);
+            var player1 = playerController.Create(Input.Default());
+            var world = worldController.Create();
 
-            Cursor.Reset();
+            player1.Spawn(world.spawnPoint);
+
+            if (true)
+            {
+                // Spawn another player.
+                var player2 = playerController.Create(Input.Alternative());
+                player2.Spawn(world.spawnPoint);
+            }
+
+            if (true)
+            {
+                // Spawn the enemy.
+                var enemy = enemyController.Create();
+                enemy.Spawn(world.spawnPoint);
+            }
+
+            if (true)
+            {
+                // Add collision checker.
+                collisionChecker = new CollisionChecker(this);
+                collisionChecker.playerController = playerController;
+                collisionChecker.enemyController = enemyController;
+                collisionChecker.projectileController = projectileController;
+                Components.Add(collisionChecker);
+            }
+
+            Cursor cursor = new Cursor(player1);
+            Camera camera = new Camera(player1);
+
+            GameService.AddService<Camera>(camera);
+            GameService.AddService<Cursor>(cursor);
 
             base.Initialize();
+
         }
 
         /// <summary>
@@ -76,6 +96,7 @@ namespace Humble
         /// </summary>
         protected override void LoadContent()
         {
+            Console.WriteLine("@Game.LoadContent");
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
@@ -98,24 +119,11 @@ namespace Humble
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (false)
-            {
-                Vector2 spawnPoint = playerController.Get().Center();
-                Vector2 targetPoint = Cursor.Position;
-                Projectile projectile = new Projectile(this);
-                projectileController.Add(projectile);
-                projectile.Spawn(spawnPoint);
-                projectile.Shoot(targetPoint);
-            }
-            else if (Keyboard.GetState().IsKeyDown(input.Shoot))
-            {
-                Vector2 spawnPoint = playerController.Get().Center();
-                Vector2 targetPoint = Cursor.Position;
-                Projectile projectile = new Projectile(this);
-                projectileController.Add(projectile);
-                projectile.Spawn(spawnPoint);
-                projectile.Shoot(targetPoint);
-            }
+            Player player = playerController.Get();
+            World world = worldController.Get();
+
+            playerController.HandleMovement(world);
+            playerController.HandleActions();
 
             base.Update(gameTime);
         }
