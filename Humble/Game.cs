@@ -72,7 +72,7 @@ namespace Humble
 
             if (true)
             {
-                // Add collision checker.
+                // Add collision checks.
                 collisionChecker = new CollisionChecker(this);
                 collisionChecker.playerController = playerController;
                 collisionChecker.enemyController = enemyController;
@@ -85,6 +85,7 @@ namespace Humble
 
             GameService.AddService<Camera>(camera);
             GameService.AddService<Cursor>(cursor);
+            GameService.AddService<World>(world);
 
             base.Initialize();
 

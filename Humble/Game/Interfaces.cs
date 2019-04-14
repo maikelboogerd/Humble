@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    interface ICollidable
+    public interface ICollidable
     {
         Rectangle Bounds { get; }
         bool Intersects(Rectangle rectangle);
         bool Contains(Vector2 point);
     }
 
-    interface IMovable
+    public interface IMoveable
     {
         Vector2 Position { get; set; }
+        int MovementSpeed { get; }
         void ChangePosition(Vector2 position);
     }
 
-    interface ISpawnable
+    public interface ISpawnable
     {
         Vector2 SpawnPoint { get; set; }
         void Spawn(Vector2 spawnPoint);

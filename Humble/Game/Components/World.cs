@@ -82,9 +82,6 @@ namespace Humble
             {
                 return level.Bounds;
             }
-            set
-            {
-            }
         }
 
         public bool Intersects(Rectangle rectangle)

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Humble
 {
-    public class Player : DrawableGameComponent, ICollidable, IMovable, ISpawnable, IKillable
+    public class Player : DrawableGameComponent, ICollidable, IMoveable, ISpawnable, IKillable
     {
         private SpriteBatch spriteBatch;
         private Texture2D boundsTexture;
@@ -26,7 +26,6 @@ namespace Humble
         public State currentState;
 
         public Input input;
-        public int MovementSpeed = 10;
 
         public Player(Game game, Input input) : base(game)
         {
@@ -100,6 +99,7 @@ namespace Humble
         /// 
 
         public Vector2 Position { get; set; }
+        public int MovementSpeed { get { return 10; } }
 
         public void ChangePosition(Vector2 location)
         {

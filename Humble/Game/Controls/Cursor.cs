@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Humble
 {
-    public class Cursor : IMovable
+    public class Cursor : IMoveable
     {
         private Texture2D boundsTexture;
         private Player player;
@@ -53,6 +53,8 @@ namespace Humble
             {
             }
         }
+
+        public int MovementSpeed { get; }
 
         public void ChangePosition(Vector2 location)
         {

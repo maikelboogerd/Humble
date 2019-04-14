@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Humble
 {
-    public class Projectile : DrawableGameComponent, ICollidable, IMovable, ISpawnable
+    public class Projectile : DrawableGameComponent, ICollidable, IMoveable, ISpawnable
     {
         private Texture2D boundsTexture;
         private Texture2D projectileTexture;
@@ -113,6 +113,7 @@ namespace Humble
         /// 
 
         public Vector2 Position { get; set; }
+        public int MovementSpeed { get { return travelSpeed; } }
 
         public void ChangePosition(Vector2 location)
         {

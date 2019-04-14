@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    public class Enemy : DrawableGameComponent, ICollidable, IMovable, ISpawnable
+    public class Enemy : DrawableGameComponent, ICollidable, IMoveable, ISpawnable
     {
         private Game game;
         private SpriteBatch spriteBatch;
@@ -22,6 +22,8 @@ namespace Humble
         }
 
         public State currentState;
+
+        private MovementStrategy movementStrategy;
 
         private Texture2D boundsTexture;
         private Texture2D enemyTexture;
@@ -37,6 +39,7 @@ namespace Humble
         public override void Initialize()
         {
             Console.WriteLine("@Enemy.Initialize");
+            movementStrategy = new MovementStrategy(this);
             base.Initialize();
         }
 
@@ -49,6 +52,14 @@ namespace Humble
             spriteBatch = new SpriteBatch(GraphicsDevice);
             boundsTexture = new Texture2D(GraphicsDevice, 1, 1);
             boundsTexture.SetData(new[] { Color.Red });
+        }
+
+        /// Update
+        /// 
+
+        public override void Update(GameTime gameTime)
+        {
+            movementStrategy.Move();
         }
 
         /// Draw
@@ -90,6 +101,7 @@ namespace Humble
         /// 
 
         public Vector2 Position { get; set; }
+        public int MovementSpeed { get { return 10; } }
 
         public void ChangePosition(Vector2 location)
         {
