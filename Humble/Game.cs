@@ -66,8 +66,11 @@ namespace Humble
             if (true)
             {
                 // Spawn the enemy.
-                var enemy = enemyController.Create();
-                enemy.Spawn(world.spawnPoint);
+                for (int i = 0; i < 3; i++)
+                {
+                    var enemy = enemyController.Create();
+                    enemy.Spawn(world.spawnPoint);
+                }
             }
 
             if (true)
