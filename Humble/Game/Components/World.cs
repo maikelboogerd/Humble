@@ -19,8 +19,8 @@ namespace Humble
 
         public World(Game game) : base(game)
         {
-            //level = new Level();
-            level = new IsometricLevel();
+            level = new Level();
+            //level = new IsometricLevel();
             //shape = new Shape();
             DrawOrder = 0;
         }

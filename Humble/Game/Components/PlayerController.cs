@@ -71,23 +71,22 @@ namespace Humble
         {
             foreach (Player player in players)
             {
-                Rectangle targetBounds = player.Bounds;
+                Vector2 targetPosition = player.Position;
 
                 if (Keyboard.GetState().IsKeyDown(player.input.Left))
-                    targetBounds.X -= player.MovementSpeed;
+                    targetPosition.X -= player.MovementSpeed;
 
                 if (Keyboard.GetState().IsKeyDown(player.input.Right))
-                    targetBounds.X += player.MovementSpeed;
+                    targetPosition.X += player.MovementSpeed;
 
                 if (Keyboard.GetState().IsKeyDown(player.input.Up))
-                    targetBounds.Y -= player.MovementSpeed;
+                    targetPosition.Y -= player.MovementSpeed;
 
                 if (Keyboard.GetState().IsKeyDown(player.input.Down))
-                    targetBounds.Y += player.MovementSpeed;
+                    targetPosition.Y += player.MovementSpeed;
 
-                if (world.Intersects(targetBounds))
+                if (world.Contains(targetPosition))
                 {
-                    Vector2 targetPosition = new Vector2(targetBounds.X, targetBounds.Y);
                     player.ChangePosition(targetPosition);
                 }
             }

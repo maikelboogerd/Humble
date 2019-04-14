@@ -75,14 +75,14 @@ namespace Humble
         /// Collision
         /// 
 
-        public int Width = 10;
-        public int Height = 10;
+        public int Width = 20;
+        public int Height = 20;
 
         public Rectangle Bounds
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+                return new Rectangle((int)Position.X - (Width / 2), (int)Position.Y - (Height / 2), Width, Height);
             }
         }
 

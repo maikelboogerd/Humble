@@ -23,8 +23,8 @@ namespace Humble
         private Vector2 targetPosition;
         private Vector2 direction;
 
-        private int travelSpeed = 10;
-        private int travelLimit = 700;
+        private int travelSpeed = 20;
+        private int travelLimit = 1000;
         private int travelDistance;
 
         public Projectile(Game game, object source) : base(game)
