@@ -131,6 +131,11 @@ namespace Humble
             currentState = State.DEATH;
         }
 
+        public void Revive()
+        {
+            currentState = State.IDLE;
+        }
+
         public bool IsDeath()
         {
             return currentState == State.DEATH;

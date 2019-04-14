@@ -31,6 +31,7 @@ namespace Humble
     interface IKillable
     {
         void Kill();
+        void Revive();
         bool IsDeath();
     }
 

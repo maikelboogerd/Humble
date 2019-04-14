@@ -44,8 +44,18 @@ namespace Humble
 
             foreach (Enemy enemy in deathEnemies)
             {
-                Game.Components.Remove(enemy);
-                enemies.Remove(enemy);
+                if (true)
+                {
+                    // Respawn killed enemies.
+                    var world = GameService.GetService<World>();
+                    enemy.Spawn(world.spawnPoint);
+                }
+                else
+                {
+                    // Enemies stay death.
+                    Game.Components.Remove(enemy);
+                    enemies.Remove(enemy);
+                }
             }
         }
 

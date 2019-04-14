@@ -34,11 +34,13 @@ namespace Humble
 
         public override void Update(GameTime gameTime)
         {
+            var world = GameService.GetService<World>();
+
             foreach (Player player in players)
             {
                 if (player.IsDeath())
                 {
-                    player.Respawn();
+                    player.Spawn(world.spawnPoint);
                 }
             }
 

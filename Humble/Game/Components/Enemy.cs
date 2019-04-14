@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    public class Enemy : DrawableGameComponent, ICollidable, IMoveable, ISpawnable
+    public class Enemy : DrawableGameComponent, ICollidable, IMoveable, ISpawnable, IKillable
     {
         private Game game;
         private SpriteBatch spriteBatch;
@@ -131,6 +131,11 @@ namespace Humble
         public void Kill()
         {
             currentState = State.DEATH;
+        }
+
+        public void Revive()
+        {
+            currentState = State.IDLE;
         }
 
         public bool IsDeath()
