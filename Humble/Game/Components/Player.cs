@@ -113,7 +113,7 @@ namespace Humble
 
         public void Spawn(Vector2 spawnPoint)
         {
-            SpawnPoint = SpawnPoint;
+            SpawnPoint = spawnPoint;
             ChangePosition(spawnPoint);
             currentState = State.IDLE;
         }
