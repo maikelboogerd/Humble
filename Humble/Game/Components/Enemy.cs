@@ -123,12 +123,7 @@ namespace Humble
 
         public bool IsDeath()
         {
-            if (currentState == State.DEATH)
-            {
-                return true;
-            }
-
-            return false;
+            return currentState == State.DEATH;
         }
 
     }

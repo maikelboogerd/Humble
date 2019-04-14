@@ -23,8 +23,8 @@ namespace Humble
         private Vector2 targetPosition;
         private Vector2 direction;
 
-        private int travelSpeed = 15;
-        private int travelLimit = 1500;
+        private int travelSpeed = 10;
+        private int travelLimit = 700;
         private int travelDistance;
 
         public Projectile(Game game, object source) : base(game)
@@ -82,14 +82,14 @@ namespace Humble
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(boundsTexture, Bounds, Color.White * 0.5f);
+            spriteBatch.Draw(boundsTexture, Bounds, Color.White * 0.8f);
         }
 
         /// Collision
         /// 
 
-        public int Width = 5;
-        public int Height = 5;
+        public int Width = 10;
+        public int Height = 10;
 
         public Rectangle Bounds
         {

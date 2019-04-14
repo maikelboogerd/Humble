@@ -27,16 +27,21 @@ namespace Humble
             {
                 Vector2 position;
 
-                if (loopIndex % Width == 0)
+                if (loopIndex % Columns == 0)
                 {
                     rowYAxis += 1;
                     columnXAxis = 0;
                 }
 
                 if (rowYAxis % 2 == 0)
+                {
                     position = new Vector2((columnXAxis + 1) * IsometricBlock.Width - (IsometricBlock.Width / 2), (rowYAxis * IsometricBlock.Height / 2) / 2);
+                }
+
                 else
+                {
                     position = new Vector2(columnXAxis * IsometricBlock.Width, (rowYAxis * IsometricBlock.Height / 2) / 2);
+                }
 
                 // Fetch the int <> block type from the mapping and create the instance.
                 Type blockClass = blockMapping.Get(Layout[loopIndex]);
@@ -46,7 +51,7 @@ namespace Humble
             }
         }
 
-        public int Width
+        public int Columns
         {
             get
             {
@@ -54,11 +59,27 @@ namespace Humble
             }
         }
 
-        public int Height
+        public int Rows
         {
             get
             {
                 return (int)Math.Sqrt(Layout.Count);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return Columns * IsometricBlock.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return Rows * IsometricBlock.Height;
             }
         }
     }
