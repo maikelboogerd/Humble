@@ -354,84 +354,100 @@ namespace Differ.Sat
         /** Internal api - implementation details for testPolygonVsPolygon */
 	    public static ShapeCollision checkPolygons(Polygon polygon1, Polygon polygon2, bool flip = false ) {
 	        var result = new ShapeCollision();
-	        // TODO: This is unused, check original source
-	        var offset = 0.0f;
-	        var test1 = 0.0f;
-	        var test2 = 0.0f;
-	        var testNum = 0.0f;
-	        var min1 = 0.0f;
-	        var max1 = 0.0f;
-	        var min2 = 0.0f;
-	        var max2 = 0.0f;
-	        var closest = float.MaxValue;
+            // TODO: This is unused, check original source
+            var MPV = new Vector();
+            var p1 = polygon1.vertices;
+            var p2 = polygon2.vertices;
 
-	        var axisX = 0.0f;
-	        var axisY = 0.0f;
-	        var verts1 = polygon1.transformedVertices;
-	        var verts2 = polygon2.transformedVertices;
+            // Def Edges
+            var n1 = p1.Count;
+            var n2 = p2.Count;
 
-            // loop to begin projection
-            for (var i = 0; i < verts1.Count; i++) {
+			var edges = new List<Vector>();
+            for (var i = 0; i < n1; i++)
+            {
+				var edge = new Vector();
+				if (i != p1.Count - 1)
+				{
+                    edge.x = p1[i + 1].x - p1[i].x;
+                    edge.y = p1[i + 1].y - p1[i].y;
+				} else
+				{
+                    edge.x = p1[0].x - p1[i].x;
+                    edge.y = p1[0].y - p1[i].y;
+				}
 
-	            axisX = findNormalAxisX(verts1, i);
-	            axisY = findNormalAxisY(verts1, i);
-	            var aLen = Util.vec_length(axisX, axisY);
-	            axisX = Util.vec_normalize(aLen, axisX);
-	            axisY = Util.vec_normalize(aLen, axisY);
+				edges.Add(edge);
+            }
 
-                // project polygon1
-	            min1 = Util.vec_dot(axisX, axisY, verts1[0].x, verts1[0].y);
-	            max1 = min1;
+            for (var i = 0; i < n2; i++)
+            {
+                var edge = new Vector();
+                if (i != p1.Count - 1)
+                {
+                    edge.x = p2[i + 1].x - p2[i].x;
+                    edge.y = p2[i + 1].y - p2[i].y;
+                }
+                else
+                {
+                    edge.x = p2[0].x - p2[i].x;
+                    edge.y = p2[0].y - p2[i].y;
+                }
+                edges.Add(edge);
+            }
 
-				for (var j = 1; i < verts1.Count; i++) {
-	                testNum = Util.vec_dot(axisX, axisY, verts1[j].x, verts1[j].y);
-	                if (testNum < min1) min1 = testNum;
-	                if (testNum > max1) max1 = testNum;
-	            }
+            var orthos = new List<Vector>();
+			for (var i = 0; i < edges.Count; i++)
+			{
+				var ortho = new Vector();
+				ortho.x = -edges[i].y;
+                ortho.y = edges[i].x;
+				orthos.Add(ortho);
+			}
 
-	                // project polygon2
-	            min2 = Util.vec_dot(axisX, axisY, verts2[0].x, verts2[0].y);
-	            max2 = min2;
+            var pushVectors = new List<Vector>();
+			Boolean collision;
+			for (var i = 0; i < orthos.Count; i++)
+			{
+                collision = collide(orthos[i], p1, p2);
+				if(collision == true){
+					result.collided = true;
+				}
+			}
 
-				for (var j = 1; i < verts2.Count; i++) {
-	                testNum = Util.vec_dot(axisX, axisY, verts2[j].x, verts2[j].y);
-	                if (testNum < min2) min2 = testNum;
-	                if (testNum > max2) max2 = testNum;
-	            }
-
-	            test1 = min1 - max2;
-	            test2 = min2 - max1;
-                Console.WriteLine("-----");
-                Console.WriteLine(test1);
-                Console.WriteLine(test2);
-                if (test1 > 0 || test2 > 0) return null;
-
-                var distMin = -(max2 - min1);
-	            if (flip) distMin *= -1;
-
-	            if (System.Math.Abs(distMin) < closest) {
-	                result.unitVectorX = axisX;
-	                result.unitVectorY = axisY;
-	                result.overlap = distMin;
-	                closest = System.Math.Abs(distMin);
-	            }
-
-	        }
-
-	        result.shape1 = flip ? polygon2 : polygon1;
-	        result.shape2 = flip ? polygon1 : polygon2;
-	        result.separationX = -result.unitVectorX * result.overlap;
-	        result.separationY = -result.unitVectorY * result.overlap;
-
-	        if (flip) {
-	            result.unitVectorX = -result.unitVectorX;
-	            result.unitVectorY = -result.unitVectorY;
-	        }
-
-
+            if (result.collided == true)
+            {
+                //Console.WriteLine(true);
+            }
             return result;
-
 	    }
+
+		public static Boolean collide(Vector orthos, IList<Vector> p1, IList<Vector> p2)
+		{
+            var min1 = float.MaxValue;
+            var max1 = float.MinValue;
+            var min2 = float.MaxValue;
+            var max2 = float.MinValue;
+
+            for (var j = 0; j < p1.Count; j++)
+            {
+                var projection = Util.vec_dot(p1[j].x, orthos.x, p1[j].y, orthos.y);
+                min1 = System.Math.Min(min1, projection);
+                max1 = System.Math.Max(max1, projection);
+            }
+            for (var j = 0; j < p2.Count; j++)
+            {
+                var projection = Util.vec_dot(p2[j].x, orthos.x, p2[j].y, orthos.y);
+                min2 = System.Math.Min(min2, projection);
+                max2 = System.Math.Max(max2, projection);
+            }
+            if (max1 >= max2 && max2 >= min1)
+            {
+                //Console.WriteLine("collided");
+                return true;
+            }
+			return false;
+		}
 
 		/** Internal helper for ray overlaps */
 		public static float rayU(float udelta, float aX, float aY, float bX, float bY, float dX, float dY) {

@@ -93,16 +93,18 @@ namespace Humble
             Player player = GameService.GetService<Player>();
 
             var collideInfo = Collision.shapeWithShape(player.playerBounds, box2);
-
             if (collideInfo != null)
             {
-                Console.WriteLine("**********");
-                //Console.WriteLine(collideInfo);
-                //use collideInfo.separationX
-                //    collideInfo.separationY
-                //    collideInfo.normalAxisX
-                //    collideInfo.normalAxisY
-                //    collideInfo.overlap
+                if (collideInfo.collided == true)
+                {
+                    Console.WriteLine("**********");
+                    //Console.WriteLine(collideInfo);
+                    //use collideInfo.separationX
+                    //    collideInfo.separationY
+                    //    collideInfo.normalAxisX
+                    //    collideInfo.normalAxisY
+                    //    collideInfo.overlap
+                }
             }
 
             // return shape.Intersects(rectangle);

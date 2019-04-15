@@ -16,6 +16,8 @@ namespace Differ.Data
         /** Y component of the unit vector, on the axis of the collision (i.e the normal of the face that was collided with) */
         public float unitVectorY = 0;
 
+		public Boolean collided = false;
+
         public float otherOverlap = 0;
         public float otherSeparationX = 0;
         public float otherSeparationY = 0;
@@ -57,6 +59,7 @@ namespace Differ.Data
 	        otherUnitVectorY = other.otherUnitVectorY;
 	        shape1 = other.shape1;
 	        shape2 = other.shape2;
+			collided = other.collided;
 		}
 	}
 }
