@@ -11,7 +11,7 @@ namespace Humble
     {
         List<AnimationFrame> frames = new List<AnimationFrame>();
         TimeSpan timeIntoAnimation;
-
+ 
         TimeSpan Duration
         {
             get

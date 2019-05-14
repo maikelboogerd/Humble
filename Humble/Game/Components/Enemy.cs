@@ -101,7 +101,7 @@ namespace Humble
         /// 
 
         public Vector2 Position { get; set; }
-        public int MovementSpeed { get { return 10; } }
+        public int MovementSpeed { get { return 5; } }
 
         public void ChangePosition(Vector2 location)
         {

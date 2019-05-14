@@ -21,7 +21,7 @@ namespace Humble
         public WorldController worldController;
         public ProjectileController projectileController;
         public EnemyController enemyController;
-        public CollisionChecker collisionChecker;
+        public Collisions collisions;
 
         public Game()
         {
@@ -66,7 +66,7 @@ namespace Humble
             if (true)
             {
                 // Spawn the enemy.
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     var enemy = enemyController.Create();
                     enemy.Spawn(world.spawnPoint);
@@ -76,11 +76,11 @@ namespace Humble
             if (true)
             {
                 // Add collision checks.
-                collisionChecker = new CollisionChecker(this);
-                collisionChecker.playerController = playerController;
-                collisionChecker.enemyController = enemyController;
-                collisionChecker.projectileController = projectileController;
-                Components.Add(collisionChecker);
+                collisions = new Collisions(this);
+                collisions.playerController = playerController;
+                collisions.enemyController = enemyController;
+                collisions.projectileController = projectileController;
+                Components.Add(collisions);
             }
 
             Cursor cursor = new Cursor(player1);

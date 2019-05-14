@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Humble
 {
-    public class CollisionChecker : GameComponent
+    public class Collisions : GameComponent
     {
 
         public PlayerController playerController { get; set; }
         public EnemyController enemyController { get; set; }
         public ProjectileController projectileController { get; set; }
 
-        public CollisionChecker(Game game) : base(game)
+        public Collisions(Game game) : base(game)
         {
         }
 

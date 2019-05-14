@@ -50,7 +50,7 @@
     <Compile Include="Game\Levels\Blocks\Lava.cs" />
     <Compile Include="Game\Helpers\GameService.cs" />
     <Compile Include="Game\Levels\Blocks\Snow.cs" />
-    <Compile Include="Game\Components\CollisionChecker.cs" />
+    <Compile Include="Game\Components\Collisions.cs" />
     <Compile Include="Game\Controls\Camera.cs" />
     <Compile Include="Game\Components\Enemy.cs" />
     <Compile Include="Game\Components\EnemyController.cs" />
@@ -62,6 +62,7 @@
     <Compile Include="Game\Levels\IsometricBlock.cs" />
     <Compile Include="Game\Levels\Level.cs" />
     <Compile Include="Game\Helpers\Polygon.cs" />
+    <Compile Include="Game\Strategies\AttackStrategy.cs" />
     <Compile Include="Game\Strategies\MovementStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
